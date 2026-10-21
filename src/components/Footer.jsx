@@ -1,5 +1,7 @@
 import { WhatsappIcon, YoutubeIcon, MailIcon, ShieldIcon } from './Icons.jsx'
 import { WHATSAPP_URL, YOUTUBE_URL, mailtoHref } from '../config.js'
+import { pageHref } from '../routing.js'
+import { ROUTES } from '../seo/site.data.js'
 
 export default function Footer({ navigate }) {
   return (
@@ -24,19 +26,20 @@ export default function Footer({ navigate }) {
           <div>
             <h4 className="font-mono text-xs uppercase tracking-[0.25em] text-neon-cyan">// Navigate</h4>
             <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5 text-sm">
-              {[['home', 'Home'], ['about', 'About Me'], ['services', 'Services'], ['youtube', 'YouTube'], ['contact', 'Contact']].map(
-                ([id, label]) => (
-                  <li key={id}>
-                    <button
-                      type="button"
-                      onClick={() => navigate(id)}
-                      className="text-slate-400 transition-colors hover:text-neon-cyan"
-                    >
-                      {label}
-                    </button>
-                  </li>
-                ),
-              )}
+              {ROUTES.map(({ key, navLabel }) => (
+                <li key={key}>
+                  <a
+                    href={pageHref(key)}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      navigate(key)
+                    }}
+                    className="no-underline text-slate-400 transition-colors hover:text-neon-cyan"
+                  >
+                    {navLabel}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 

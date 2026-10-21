@@ -20,7 +20,7 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noreferrer"
       aria-label="Chat on WhatsApp"
-      className="group fixed bottom-6 right-6 z-50 flex items-center gap-3"
+      className="group no-underline fixed bottom-6 right-6 z-50 flex items-center gap-3"
     >
       <span
         className={`hidden translate-x-2 rounded-sm border border-neon-green/30 bg-panel/90 px-3 py-2 font-mono text-xs tracking-wider text-neon-green backdrop-blur-md transition-all duration-500 group-hover:translate-x-0 sm:block ${

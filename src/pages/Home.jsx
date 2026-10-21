@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import CyberSphere from '../components/CyberSphere.jsx'
 import { ArrowRightIcon, YoutubeIcon, CrosshairIcon, SmartphoneIcon, ServerIcon, CheckIcon } from '../components/Icons.jsx'
+import { pageHref } from '../routing.js'
 
 const ROLES = ['White Hat Ethical Hacker', 'Cyber Security Specialist', 'Mobile Diagnostics Expert', 'Desktop System Hardener']
 
@@ -85,14 +86,28 @@ export default function Home({ navigate }) {
             </p>
 
             <div className="mt-9 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
-              <button type="button" onClick={() => navigate('contact')} className="btn-primary group">
+              <a
+                href={pageHref('contact')}
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigate('contact')
+                }}
+                className="btn-primary no-underline group"
+              >
                 Get In Touch
                 <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </button>
-              <button type="button" onClick={() => navigate('youtube')} className="btn-outline !border-neon-red/50 !text-red-400 hover:!bg-red-500/10 hover:!shadow-[0_0_26px_rgba(255,0,51,0.25)]">
+              </a>
+              <a
+                href={pageHref('youtube')}
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigate('youtube')
+                }}
+                className="btn-outline no-underline !border-neon-red/50 !text-red-400 hover:!bg-red-500/10 hover:!shadow-[0_0_26px_rgba(255,0,51,0.25)]"
+              >
                 <YoutubeIcon className="h-5 w-5" />
                 YouTube Channel
-              </button>
+              </a>
             </div>
 
             {/* trust strip */}

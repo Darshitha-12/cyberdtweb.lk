@@ -1,4 +1,5 @@
 import { BugIcon, CrosshairIcon, LockIcon, ConsultIcon, ArrowRightIcon, CheckIcon } from '../components/Icons.jsx'
+import { pageHref } from '../routing.js'
 
 const SERVICES = [
   {
@@ -95,14 +96,17 @@ export default function Services({ navigate }) {
                 <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-slate-600 group-hover:text-slate-500">
                   custom_quote
                 </span>
-                <button
-                  type="button"
-                  onClick={() => navigate('contact')}
+                <a
+                  href={pageHref('contact')}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    navigate('contact')
+                  }}
                   aria-label={`Enquire about ${title}`}
-                  className="grid h-9 w-9 place-items-center rounded-sm border border-neon-cyan/30 text-neon-cyan transition-all duration-300 hover:bg-neon-cyan hover:text-void hover:shadow-glow-cyan"
+                  className="no-underline grid h-9 w-9 place-items-center rounded-sm border border-neon-cyan/30 text-neon-cyan transition-all duration-300 hover:bg-neon-cyan hover:text-void hover:shadow-glow-cyan"
                 >
                   <ArrowRightIcon className="h-4 w-4" />
-                </button>
+                </a>
               </div>
             </article>
           ))}
@@ -137,13 +141,16 @@ export default function Services({ navigate }) {
               Send me the symptoms — I'll map the vulnerability and recommend the right fix.
             </p>
           </div>
-          <button
-            type="button"
-            onClick={() => navigate('contact')}
-            className="btn-primary shrink-0"
+          <a
+            href={pageHref('contact')}
+            onClick={(e) => {
+              e.preventDefault()
+              navigate('contact')
+            }}
+            className="btn-primary no-underline shrink-0"
           >
             Request A Free Assessment
-          </button>
+          </a>
         </div>
       </section>
     </div>

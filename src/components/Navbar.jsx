@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react'
 import { ShieldIcon, MenuIcon, XIcon } from './Icons.jsx'
+import { pageHref } from '../routing.js'
+import { ROUTES } from '../seo/site.data.js'
 
-const LINKS = [
-  { id: 'home', label: 'Home' },
-  { id: 'about', label: 'About Me' },
-  { id: 'services', label: 'Services' },
-  { id: 'youtube', label: 'YouTube Channel' },
-  { id: 'contact', label: 'Contact' },
-]
+const LINKS = ROUTES.map(({ key, navLabel }) => ({ id: key, label: navLabel }))
 
 export default function Navbar({ active, navigate }) {
   const [open, setOpen] = useState(false)
@@ -20,10 +16,16 @@ export default function Navbar({ active, navigate }) {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const go = (id) => {
+  // Real hrefs keep the navigation crawlable for search engines while the
+  // click handler keeps the site a single-page app (no page reloads).
+  const go = (id) => (event) => {
+    event.preventDefault()
     setOpen(false)
     navigate(id)
   }
+
+  const homeHref = pageHref('home')
+  const contactHref = pageHref('contact')
 
   return (
     <header
@@ -51,7 +53,7 @@ export default function Navbar({ active, navigate }) {
 
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
         {/* logo */}
-        <button type="button" onClick={() => go('home')} className="group flex items-center gap-3">
+        <a href={homeHref} onClick={go('home')} className="group no-underline flex items-center gap-3">
           <span className="relative grid h-11 w-11 place-items-center rounded-sm border border-neon-cyan/50 bg-panel text-neon-cyan transition-shadow duration-300 group-hover:shadow-glow-cyan">
             <ShieldIcon className="h-6 w-6" />
             <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-neon-green shadow-[0_0_8px_#00e676]" />
@@ -59,16 +61,17 @@ export default function Navbar({ active, navigate }) {
           <span className="font-display text-lg font-extrabold tracking-[0.22em] text-white">
             CYBER<span className="text-neon-cyan text-glow-cyan"> DT</span>
           </span>
-        </button>
+        </a>
 
         {/* desktop links */}
         <ul className="hidden items-center gap-7 lg:flex">
           {LINKS.map(({ id, label }) => (
             <li key={id}>
-              <button
-                type="button"
-                onClick={() => go(id)}
-                className={`group relative px-1 py-1 font-display text-[13px] font-semibold uppercase tracking-[0.16em] transition-colors duration-200 ${
+              <a
+                href={pageHref(id)}
+                onClick={go(id)}
+                aria-current={active === id ? 'page' : undefined}
+                className={`group no-underline relative px-1 py-1 font-display text-[13px] font-semibold uppercase tracking-[0.16em] transition-colors duration-200 ${
                   active === id ? 'text-neon-cyan' : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -78,15 +81,15 @@ export default function Navbar({ active, navigate }) {
                     active === id ? 'w-full shadow-[0_0_8px_#00f2fe]' : 'w-0 group-hover:w-full'
                   }`}
                 />
-              </button>
+              </a>
             </li>
           ))}
         </ul>
 
         <div className="flex items-center gap-3">
-          <button type="button" onClick={() => go('contact')} className="btn-primary hidden !px-6 !py-2.5 sm:inline-flex">
+          <a href={contactHref} onClick={go('contact')} className="btn-primary no-underline hidden !px-6 !py-2.5 sm:inline-flex">
             Hire Me
-          </button>
+          </a>
 
           {/* mobile toggle */}
           <button
@@ -109,10 +112,11 @@ export default function Navbar({ active, navigate }) {
         <ul className="glass-panel space-y-1 px-5 pb-6 pt-3">
           {LINKS.map(({ id, label }) => (
             <li key={id}>
-              <button
-                type="button"
-                onClick={() => go(id)}
-                className={`flex w-full items-center justify-between rounded-sm px-4 py-3 text-left font-display text-sm font-semibold uppercase tracking-[0.18em] ${
+              <a
+                href={pageHref(id)}
+                onClick={go(id)}
+                aria-current={active === id ? 'page' : undefined}
+                className={`no-underline flex w-full items-center justify-between rounded-sm px-4 py-3 text-left font-display text-sm font-semibold uppercase tracking-[0.18em] ${
                   active === id ? 'bg-neon-cyan/10 text-neon-cyan' : 'text-slate-300 hover:bg-white/5'
                 }`}
               >
@@ -120,13 +124,13 @@ export default function Navbar({ active, navigate }) {
                 <span className="font-mono text-xs text-slate-600">
                   {'>'}_
                 </span>
-              </button>
+              </a>
             </li>
           ))}
           <li className="pt-2">
-            <button type="button" onClick={() => go('contact')} className="btn-primary w-full">
+            <a href={contactHref} onClick={go('contact')} className="btn-primary no-underline w-full">
               Hire Me
-            </button>
+            </a>
           </li>
         </ul>
       </div>
