@@ -1,15 +1,12 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Auto-detects the GitHub repo name during Pages builds,
-// so the site works no matter what you name your repository.
-// Locally it stays at '/' so `npm run dev` and `npm run preview` just work.
-const ghBase = process.env.GITHUB_REPOSITORY
-  ? `/${process.env.GITHUB_REPOSITORY.split('/')[1]}/`
-  : '/'
-
+// Relative asset paths so the exact same build works on:
+//  - GitHub Pages project URL: https://darshitha-12.github.io/cyberdtweb.lk/
+//  - Custom domain root:       https://cyberdt.is-a.dev/
+// No repo-name guessing needed, and switching domains won't break assets.
 export default defineConfig({
-  base: ghBase,
+  base: './',
   plugins: [react()],
   build: {
     chunkSizeWarningLimit: 900,
