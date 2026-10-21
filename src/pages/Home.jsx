@@ -60,6 +60,9 @@ export default function Home({ navigate }) {
             <p className="section-tag justify-center lg:justify-start">authorized_access // white_hat</p>
 
             <h1 className="mt-5 font-display text-4xl font-black uppercase leading-tight tracking-wide text-white sm:text-5xl xl:text-6xl">
+              <span className="mb-2 block font-mono text-[11px] font-medium tracking-[0.45em] text-neon-cyan/80 sm:text-xs">
+                CYBER DT
+              </span>
               Darshitha
               <br />
               <span className="bg-gradient-to-r from-neon-cyan via-cyan-300 to-emerald-400 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(0,242,254,0.35)]">
