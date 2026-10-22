@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://main.cyberdt.pages.dev/sitemap.xml
+Sitemap: https://cyberdt.pages.dev/sitemap.xml
