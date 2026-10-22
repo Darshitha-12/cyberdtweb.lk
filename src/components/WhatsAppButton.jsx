@@ -6,8 +6,8 @@ export default function WhatsAppButton() {
   const [showTip, setShowTip] = useState(false)
 
   useEffect(() => {
-    const t = setTimeout(() => setShowTip(true), 2500)
-    const t2 = setTimeout(() => setShowTip(false), 9000)
+    const t = setTimeout(() => setShowTip(true), 3000)
+    const t2 = setTimeout(() => setShowTip(false), 10000)
     return () => {
       clearTimeout(t)
       clearTimeout(t2)
@@ -23,16 +23,16 @@ export default function WhatsAppButton() {
       className="group no-underline fixed bottom-6 right-6 z-50 flex items-center gap-3"
     >
       <span
-        className={`hidden translate-x-2 rounded-sm border border-neon-green/30 bg-panel/90 px-3 py-2 font-mono text-xs tracking-wider text-neon-green backdrop-blur-md transition-all duration-500 group-hover:translate-x-0 sm:block ${
-          showTip ? 'opacity-100 translate-x-0' : 'opacity-0 pointer-events-none'
+        className={`hidden rounded-lg border border-slate-800 bg-[#080b10]/90 px-3 py-2 text-xs text-slate-300 shadow-lg backdrop-blur-md transition-all duration-500 sm:block ${
+          showTip ? 'translate-x-0 opacity-100' : 'pointer-events-none translate-x-2 opacity-0'
         }`}
       >
-        secure_line : <span className="text-white">online</span>
+        Chat with <span className="text-white">CYBER DT</span>
       </span>
 
       <span className="relative grid h-14 w-14 place-items-center">
-        <span className="absolute inset-0 rounded-full bg-neon-green/40 animate-pulseRing" />
-        <span className="relative grid h-14 w-14 place-items-center rounded-full bg-gradient-to-br from-[#00e676] to-[#00b863] text-white shadow-glow-green transition-transform duration-300 group-hover:scale-110">
+        <span className="absolute inset-0 rounded-full bg-emerald-400/25 animate-pulseRing" />
+        <span className="relative grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-[#052e16] shadow-[0_14px_30px_-14px_rgba(37,211,102,0.9)] transition-transform duration-300 group-hover:scale-105">
           <WhatsappIcon className="h-7 w-7" />
         </span>
       </span>

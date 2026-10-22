@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
 import WhatsAppButton from './components/WhatsAppButton.jsx'
-import ParticleBackground from './components/ParticleBackground.jsx'
 import Home from './pages/Home.jsx'
 import About from './pages/About.jsx'
 import Services from './pages/Services.jsx'
@@ -48,8 +47,6 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-void">
-      <ParticleBackground />
-
       {/* subtle grid overlay */}
       <div className="pointer-events-none fixed inset-0 grid-overlay-bg z-0" aria-hidden="true" />
 

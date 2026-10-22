@@ -1,9 +1,26 @@
 import { useEffect, useState } from 'react'
-import CyberSphere from '../components/CyberSphere.jsx'
-import { ArrowRightIcon, YoutubeIcon, CrosshairIcon, SmartphoneIcon, ServerIcon, CheckIcon } from '../components/Icons.jsx'
+import {
+  ArrowRightIcon,
+  YoutubeIcon,
+  CrosshairIcon,
+  SmartphoneIcon,
+  ServerIcon,
+  CheckIcon,
+  MapPinIcon,
+  ClockIcon,
+  ShieldIcon,
+  WhatsappIcon,
+} from '../components/Icons.jsx'
 import { pageHref } from '../routing.js'
+import { WHATSAPP_URL, YOUTUBE_URL } from '../config.js'
+import { FAQ } from '../seo/site.data.js'
 
-const ROLES = ['White Hat Ethical Hacker', 'Cyber Security Specialist', 'Mobile Diagnostics Expert', 'Desktop System Hardener']
+const ROLES = [
+  'White Hat Ethical Hacker',
+  'Cyber Security Specialist',
+  'Mobile Diagnostics Expert',
+  'Desktop System Hardener',
+]
 
 function Typewriter() {
   const [text, setText] = useState('')
@@ -12,10 +29,10 @@ function Typewriter() {
 
   useEffect(() => {
     const current = ROLES[roleIdx]
-    let delay = deleting ? 32 : 68
+    let delay = deleting ? 30 : 62
 
     if (!deleting && text === current) {
-      delay = 1800
+      delay = 1900
     } else if (deleting && text === '') {
       setDeleting(false)
       setRoleIdx((i) => (i + 1) % ROLES.length)
@@ -34,58 +51,70 @@ function Typewriter() {
   }, [text, deleting, roleIdx])
 
   return (
-    <span className="font-mono text-sm text-neon-green sm:text-base">
-      <span className="text-slate-500">$</span> {text}
-      <span className="animate-blink text-neon-cyan">▊</span>
+    <span className="font-display text-sm font-medium tracking-wide text-cyan-400 sm:text-base">
+      {text}
+      <span className="ml-0.5 animate-blink text-cyan-400/70">▍</span>
     </span>
   )
 }
 
 const HIGHLIGHTS = [
-  { icon: CrosshairIcon, title: 'Ethical Hacking', desc: 'Authorized penetration testing & vulnerability assessment that finds the holes before attackers do.' },
-  { icon: SmartphoneIcon, title: 'Mobile Diagnostics', desc: 'Deep Android/iOS diagnostics — malware removal, performance recovery and OS-level security tuning.' },
-  { icon: ServerIcon, title: 'PC System Hardening', desc: 'Windows & Linux desktops locked down, optimized and hardened against real-world threats.' },
+  {
+    icon: CrosshairIcon,
+    title: 'Ethical Hacking',
+    desc: 'Authorized penetration testing and vulnerability assessment that finds the holes before attackers do.',
+  },
+  {
+    icon: SmartphoneIcon,
+    title: 'Mobile Diagnostics',
+    desc: 'Deep Android and iOS diagnostics — malware removal, performance recovery and OS-level security tuning.',
+  },
+  {
+    icon: ServerIcon,
+    title: 'PC System Hardening',
+    desc: 'Windows and Linux desktops locked down, optimised and hardened against real-world threats.',
+  },
+]
+
+const FACTS = [
+  { icon: MapPinIcon, label: 'Base', value: 'Sri Lanka — Remote worldwide' },
+  { icon: ClockIcon, label: 'Response time', value: 'Under 24 hours' },
+  { icon: ShieldIcon, label: 'Engagements', value: 'Authorized & NDA-friendly' },
 ]
 
 export default function Home({ navigate }) {
   return (
     <>
       {/* ================= HERO ================= */}
-      <section className="relative overflow-hidden pt-36 pb-24 md:pt-44 lg:min-h-screen">
-        <div className="pointer-events-none absolute -top-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-neon-cyan/10 blur-[140px]" />
-        <div className="pointer-events-none absolute bottom-0 left-[-8%] h-[420px] w-[420px] rounded-full bg-emerald-500/10 blur-[130px]" />
+      <section className="relative overflow-hidden pt-32 pb-20 md:pt-40">
+        <div className="pointer-events-none absolute inset-0 hero-aurora" aria-hidden="true" />
 
-        <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 lg:grid-cols-2 lg:gap-8 lg:px-8">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-5 lg:grid-cols-2 lg:gap-16 lg:px-6">
           {/* left copy */}
-          <div className="text-center lg:text-left">
-            <p className="section-tag justify-center lg:justify-start">authorized_access // white_hat</p>
+          <div>
+            <p className="eyebrow">Ethical Hacker &amp; Security Specialist</p>
 
-            <h1 className="mt-5 font-display text-4xl font-black uppercase leading-tight tracking-wide text-white sm:text-5xl xl:text-6xl">
-              <span className="mb-2 block font-mono text-[11px] font-medium tracking-[0.45em] text-neon-cyan/80 sm:text-xs">
-                CYBER DT
-              </span>
+            <h1 className="mt-5 font-display text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl xl:text-6xl">
               Darshitha
               <br />
-              <span className="bg-gradient-to-r from-neon-cyan via-cyan-300 to-emerald-400 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(0,242,254,0.35)]">
+              <span className="bg-gradient-to-r from-cyan-300 via-sky-300 to-emerald-300 bg-clip-text text-transparent">
                 Theekshana
               </span>
             </h1>
 
-            <div className="mt-5 inline-flex items-center gap-2 rounded-sm border border-neon-green/30 bg-panel/70 px-4 py-2 backdrop-blur-md">
+            <div className="mt-6 flex items-center gap-3">
+              <span className="h-px w-8 bg-slate-700" />
               <Typewriter />
             </div>
 
-            <h2 className="mt-6 font-display text-sm font-semibold uppercase tracking-[0.3em] text-slate-400 sm:text-base">
-              White Hat Ethical Hacker <span className="text-neon-cyan">&amp;</span> Tech Ecosystem Specialist
-            </h2>
-
-            <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-slate-400 lg:mx-0">
-              I break into systems <span className="text-white">so criminals can't.</span> From ethical
-              hacking and penetration testing to mobile diagnostics and full PC system hardening —
-              CYBER DT secures your entire digital ecosystem, end to end.
+            <p className="mt-7 max-w-xl text-base leading-relaxed text-slate-400 sm:text-lg">
+              I break into systems{' '}
+              <span className="text-white">so criminals can’t.</span> From ethical hacking and
+              penetration testing to mobile diagnostics and complete PC hardening, CYBER DT secures
+              your digital ecosystem end to end.
             </p>
 
-            <div className="mt-9 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+            <div className="mt-9 flex flex-wrap items-center gap-4">
               <a
                 href={pageHref('contact')}
                 onClick={(e) => {
@@ -94,84 +123,208 @@ export default function Home({ navigate }) {
                 }}
                 className="btn-primary no-underline group"
               >
-                Get In Touch
+                Get in touch
                 <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
               <a
-                href={pageHref('youtube')}
+                href={pageHref('services')}
                 onClick={(e) => {
                   e.preventDefault()
-                  navigate('youtube')
+                  navigate('services')
                 }}
-                className="btn-outline no-underline !border-neon-red/50 !text-red-400 hover:!bg-red-500/10 hover:!shadow-[0_0_26px_rgba(255,0,51,0.25)]"
+                className="btn-outline no-underline"
               >
-                <YoutubeIcon className="h-5 w-5" />
-                YouTube Channel
+                View services
               </a>
             </div>
 
             {/* trust strip */}
-            <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 border-t border-slate-800/70 pt-6 font-mono text-[11px] uppercase tracking-widest text-slate-500 lg:justify-start">
-              <span className="flex items-center gap-2"><CheckIcon className="h-3.5 w-3.5 text-neon-green" /> 100% Confidential</span>
-              <span className="flex items-center gap-2"><CheckIcon className="h-3.5 w-3.5 text-neon-green" /> Legal &amp; Authorized Only</span>
-              <span className="flex items-center gap-2"><CheckIcon className="h-3.5 w-3.5 text-neon-green" /> Sri Lanka Based · Global Remote</span>
-            </div>
+            <ul className="mt-11 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-slate-800/80 pt-6 text-[13px] text-slate-400">
+              <li className="flex items-center gap-2">
+                <CheckIcon className="h-4 w-4 text-emerald-400" />
+                100% confidential
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckIcon className="h-4 w-4 text-emerald-400" />
+                Legal &amp; authorized only
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckIcon className="h-4 w-4 text-emerald-400" />
+                Sri Lanka based · Global remote
+              </li>
+            </ul>
           </div>
 
-          {/* right 3D visualizer */}
-          <div className="relative mx-auto aspect-square w-full max-w-[520px] animate-floatY">
-            <CyberSphere />
-            <div className="pointer-events-none absolute inset-x-10 bottom-4 text-center font-mono text-[10px] uppercase tracking-[0.35em] text-neon-cyan/50">
-              cryptographic_core :: live
+          {/* right profile panel */}
+          <div className="mx-auto w-full max-w-md lg:max-w-none">
+            <div className="cyber-card p-8">
+              <div className="flex items-center gap-4">
+                <span className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-cyan-400 to-sky-500 font-display text-lg font-bold text-[#04121a]">
+                  DT
+                </span>
+                <div className="min-w-0">
+                  <p className="truncate font-display text-lg font-semibold text-white">
+                    Darshitha Theekshana
+                  </p>
+                  <p className="mt-1 truncate text-sm text-slate-400">
+                    White Hat Ethical Hacker · Cyber Security Specialist
+                  </p>
+                </div>
+              </div>
+
+              <dl className="mt-7 space-y-4 border-t border-slate-800/80 pt-6">
+                {FACTS.map(({ icon: Icon, label, value }) => (
+                  <div key={label} className="flex items-center gap-3">
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-slate-800 bg-slate-900/50 text-cyan-400">
+                      <Icon className="h-4 w-4" />
+                    </span>
+                    <span className="min-w-0">
+                      <dt className="text-[11px] font-medium uppercase tracking-[0.18em] text-slate-500">
+                        {label}
+                      </dt>
+                      <dd className="mt-0.5 truncate text-sm font-medium text-slate-200">{value}</dd>
+                    </span>
+                  </div>
+                ))}
+              </dl>
+
+              <div className="mt-7 flex gap-3 border-t border-slate-800/80 pt-6">
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-ghost no-underline flex-1"
+                >
+                  <WhatsappIcon className="h-4 w-4 text-emerald-400" />
+                  WhatsApp
+                </a>
+                <a
+                  href={YOUTUBE_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-ghost no-underline flex-1"
+                >
+                  <YoutubeIcon className="h-4 w-4 text-red-400" />
+                  YouTube
+                </a>
+              </div>
             </div>
-            <div className="pointer-events-none absolute left-1/2 top-1/2 h-[85%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-neon-cyan/10" />
           </div>
         </div>
       </section>
 
-      {/* ================= EXPERTISE STRIP ================= */}
+      {/* ================= EXPERTISE ================= */}
       <section className="relative py-16">
-        <div className="mx-auto grid max-w-7xl gap-6 px-5 sm:grid-cols-3 lg:px-8">
-          {HIGHLIGHTS.map(({ icon: Icon, title, desc }) => (
-            <article
-              key={title}
-              onMouseMove={(e) => {
-                const r = e.currentTarget.getBoundingClientRect()
-                e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`)
-                e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`)
-              }}
-              className="cyber-card rounded-md p-7"
-            >
-              <span className="inline-grid h-12 w-12 place-items-center rounded-sm border border-neon-cyan/30 bg-panel text-neon-cyan shadow-glow-cyan">
-                <Icon className="h-6 w-6" />
-              </span>
-              <h3 className="mt-5 font-display text-base font-bold uppercase tracking-[0.14em] text-white">{title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-slate-400">{desc}</p>
-            </article>
-          ))}
+        <div className="mx-auto max-w-6xl px-5 lg:px-6">
+          <p className="eyebrow">What I do</p>
+          <h2 className="section-title mt-4">Three areas of practice</h2>
+          <p className="page-lede mt-4">
+            Every engagement is scoped in writing, performed only against systems you own or are
+            authorized to test, and delivered with a clear remediation report.
+          </p>
+
+          <div className="mt-10 grid gap-5 sm:grid-cols-3">
+            {HIGHLIGHTS.map(({ icon: Icon, title, desc }) => (
+              <article key={title} className="cyber-card p-7">
+                <span className="inline-grid h-11 w-11 place-items-center rounded-lg border border-cyan-400/25 bg-slate-900/60 text-cyan-400">
+                  <Icon className="h-5 w-5" />
+                </span>
+                <h3 className="mt-5 font-display text-base font-semibold text-white">{title}</h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-slate-400">{desc}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ================= TERMINAL CTA BAND ================= */}
-      <section className="relative py-14">
-        <div className="mx-auto max-w-5xl px-5 lg:px-8">
-          <div className="cyber-card overflow-hidden rounded-md">
-            <div className="flex items-center gap-2 border-b border-slate-800 bg-black/40 px-5 py-3">
-              <span className="h-3 w-3 rounded-full bg-red-500/80" />
-              <span className="h-3 w-3 rounded-full bg-yellow-500/80" />
-              <span className="h-3 w-3 rounded-full bg-emerald-500/80" />
-              <span className="ml-3 font-mono text-xs text-slate-500">dt@cyber-sl: ~/portfolio</span>
+      {/* ================= WHY CYBER DT ================= */}
+      <section className="relative py-16">
+        <div className="mx-auto max-w-6xl px-5 lg:px-6">
+          <div className="grid gap-10 lg:grid-cols-5 lg:gap-16">
+            <div className="lg:col-span-2">
+              <p className="eyebrow">The brand</p>
+              <h2 className="section-title mt-4">Why the name CYBER DT</h2>
+              <p className="mt-4 text-sm leading-relaxed text-slate-400">
+                CYBER DT is the short, searchable identity used across this website, the
+                @dtcybersl1 YouTube channel and the GitHub profile — same spelling, same role, same
+                services everywhere.
+              </p>
             </div>
-            <pre className="overflow-x-auto px-6 py-6 font-mono text-[13px] leading-7 text-slate-400">
-<code><span className="text-neon-green">$</span> whoami
-<span className="text-white">darshitha_theekshana — cyber security specialist, sri lanka 🇱🇰</span>
 
-<span className="text-neon-green">$</span> ./scan --scope your_systems --mode <span className="text-neon-cyan">whitehat</span>
-<span className="text-slate-500">[ OK ]</span> vulnerabilities mapped   <span className="text-slate-500">[ OK ]</span> malware purged   <span className="text-slate-500">[ OK ]</span> defenses hardened
+            <div className="lg:col-span-3">
+              <ul className="space-y-4">
+                {[
+                  {
+                    title: 'Authorized, documented work',
+                    desc: 'Written scope and rules of engagement before any testing begins.',
+                  },
+                  {
+                    title: 'Root cause, not symptoms',
+                    desc: 'Root causes are traced and defences rebuilt so issues stay fixed.',
+                  },
+                  {
+                    title: 'Practical, real-world focus',
+                    desc: 'The same work shown on the channel is the work delivered to clients.',
+                  },
+                ].map((item) => (
+                  <li key={item.title} className="cyber-card flex gap-4 p-6">
+                    <CheckIcon className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" />
+                    <span>
+                      <span className="block font-display text-sm font-semibold text-white">
+                        {item.title}
+                      </span>
+                      <span className="mt-1.5 block text-sm leading-relaxed text-slate-400">
+                        {item.desc}
+                      </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
 
-<span className="text-neon-green">$</span> status --mission
-<span className="text-neon-cyan">▸ protecting clients. educating on youtube. one secured device at a time.</span></code>
-            </pre>
+      {/* ================= FAQ ================= */}
+      <section className="relative py-16">
+        <div className="mx-auto max-w-4xl px-5 lg:px-6">
+          <p className="eyebrow">FAQ</p>
+          <h2 className="section-title mt-4">Frequently asked questions</h2>
+
+          <dl className="mt-9 divide-y divide-slate-800/80 border-y border-slate-800/80">
+            {FAQ.map((item) => (
+              <div key={item.q} className="py-6">
+                <dt className="font-display text-base font-semibold text-white">{item.q}</dt>
+                <dd className="mt-2.5 text-sm leading-relaxed text-slate-400">{item.a}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      {/* ================= CTA ================= */}
+      <section className="relative py-16">
+        <div className="mx-auto max-w-4xl px-5 lg:px-6">
+          <div className="cyber-card flex flex-col items-center gap-6 p-10 text-center sm:flex-row sm:text-left">
+            <div className="flex-1">
+              <h3 className="font-display text-xl font-bold tracking-tight text-white">
+                Need a security assessment?
+              </h3>
+              <p className="mt-2.5 text-sm leading-relaxed text-slate-400">
+                Describe the symptoms — I’ll map the vulnerability and recommend the right fix before
+                anything is scoped.
+              </p>
+            </div>
+            <a
+              href={pageHref('contact')}
+              onClick={(e) => {
+                e.preventDefault()
+                navigate('contact')
+              }}
+              className="btn-primary no-underline shrink-0"
+            >
+              Start a conversation
+            </a>
           </div>
         </div>
       </section>

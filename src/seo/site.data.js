@@ -20,6 +20,17 @@ export const LOCATION = 'Sri Lanka'
 export const YOUTUBE_URL = 'https://www.youtube.com/@dtcybersl1'
 export const YOUTUBE_SUBSCRIBE_URL = 'https://www.youtube.com/@dtcybersl1?sub_confirmation=1'
 export const GITHUB_URL = 'https://github.com/Darshitha-12'
+export const FACEBOOK_URL = 'https://www.facebook.com/darshitha.thikshana/'
+export const LINKEDIN_URL =
+  'https://www.linkedin.com/public-profile/settings/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_self_edit_contact_info%3BgZE%2BTcd%2BSwympeStWUjluQ%3D%3D'
+
+/** Every public profile that should point back to this site. */
+export const SOCIAL_LINKS = [
+  { label: 'YouTube', href: YOUTUBE_URL },
+  { label: 'Facebook', href: FACEBOOK_URL },
+  { label: 'LinkedIn', href: LINKEDIN_URL },
+  { label: 'GitHub', href: GITHUB_URL },
+]
 
 export const OG_IMAGE = `${SITE_URL}/og-image.png`
 export const PERSON_ID = `${SITE_URL}/#person`

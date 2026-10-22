@@ -4,7 +4,9 @@ import { dirname, resolve } from 'node:path'
 import {
   BRAND,
   FAQ,
+  FACEBOOK_URL,
   GITHUB_URL,
+  LINKEDIN_URL,
   LOCATION,
   OG_IMAGE,
   PERSON,
@@ -33,23 +35,27 @@ const esc = (value) =>
 const SITE_NAME = 'CYBER DT — Darshitha Theekshana | Ethical Hacker Sri Lanka'
 
 const FAVICON =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300f2fe' stroke-width='2'%3E%3Cpath d='M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z'/%3E%3Cpath d='M9 12l2 2 4-4' stroke='%2300e676'/%3E%3C/svg%3E"
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23080b10'/%3E%3Crect x='1.5' y='1.5' width='61' height='61' rx='12.5' fill='none' stroke='%2322d3ee' stroke-width='3'/%3E%3Ctext x='32' y='41' font-family='Segoe UI,Inter,sans-serif' font-size='22' font-weight='700' fill='%23ffffff' text-anchor='middle'%3EDT%3C/text%3E%3C/svg%3E"
+
+const FONT_HREF =
+  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap'
 
 const STATIC_CSS = `
-.seo-static{max-width:52rem;margin:0 auto;padding:7rem 1.25rem 4rem;color:#cbd5e1;font-family:'Rajdhani',system-ui,-apple-system,Segoe UI,sans-serif;font-size:1.0625rem;line-height:1.75;background:#080b10}
-.seo-static h1{color:#fff;font-family:'Orbitron',system-ui,sans-serif;font-weight:900;font-size:clamp(1.75rem,4vw,2.75rem);line-height:1.2;letter-spacing:.02em;margin:0 0 1.25rem}
-.seo-static h2{color:#fff;font-family:'Orbitron',system-ui,sans-serif;font-weight:800;font-size:clamp(1.25rem,2.5vw,1.6rem);letter-spacing:.04em;margin:2.5rem 0 .85rem}
+.seo-static{max-width:52rem;margin:0 auto;padding:7rem 1.25rem 4rem;color:#cbd5e1;font-family:'Inter',system-ui,-apple-system,Segoe UI,sans-serif;font-size:1.0625rem;line-height:1.75;background:#080b10}
+.seo-static h1{color:#fff;font-family:'Space Grotesk','Inter',system-ui,sans-serif;font-weight:700;font-size:clamp(1.9rem,4vw,2.9rem);line-height:1.15;letter-spacing:-.02em;margin:0 0 1.25rem}
+.seo-static h2{color:#fff;font-family:'Space Grotesk','Inter',system-ui,sans-serif;font-weight:600;font-size:clamp(1.3rem,2.5vw,1.7rem);letter-spacing:-.01em;margin:2.5rem 0 .85rem}
 .seo-static p{margin:0 0 1.1rem}
 .seo-static ul{margin:0 0 1.4rem;padding-left:1.25rem}
 .seo-static li{margin-bottom:.6rem}
-.seo-static li::marker{color:#00e676}
+.seo-static li::marker{color:#22d3ee}
 .seo-static .seo-lede{color:#e2e8f0;font-size:1.15rem}
-.seo-static a{color:#00f2fe}
+.seo-static a{color:#22d3ee}
 .seo-static dl{margin:0 0 1.5rem}
-.seo-static dt{color:#fff;font-weight:700;margin-top:1rem}
+.seo-static dt{color:#fff;font-weight:600;margin-top:1rem}
 .seo-static dd{margin:.35rem 0 0}
-.seo-static .seo-nav{display:flex;flex-wrap:wrap;gap:.75rem;padding-top:1.5rem;border-top:1px solid #1e293b;margin-top:2.5rem;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase}
-.seo-static .seo-nav a{border:1px solid rgba(0,242,254,.35);border-radius:.25rem;padding:.5rem .9rem;text-decoration:none}
+.seo-static .seo-nav{display:flex;flex-wrap:wrap;gap:.75rem;padding-top:1.5rem;border-top:1px solid #1e293b;margin-top:2.5rem;font-size:.85rem}
+.seo-static .seo-nav a{border:1px solid rgba(148,163,184,.28);border-radius:.5rem;padding:.5rem .9rem;text-decoration:none;color:#cbd5e1}
+.seo-static .seo-nav a:hover{border-color:rgba(34,211,238,.55);color:#22d3ee}
 `.trim()
 
 function pageUrl(route) {
@@ -105,7 +111,7 @@ function jsonLd(route) {
         'Network Security',
       ],
       worksFor: { '@id': SERVICE_ID },
-      sameAs: [YOUTUBE_URL, GITHUB_URL],
+      sameAs: [YOUTUBE_URL, FACEBOOK_URL, LINKEDIN_URL, GITHUB_URL],
     },
     {
       '@type': 'WebSite',
@@ -203,6 +209,8 @@ function staticBody(route) {
   }
   parts.push(
     `<a href="${esc(YOUTUBE_URL)}" rel="noopener">YouTube @dtcybersl1</a>`,
+    `<a href="${esc(FACEBOOK_URL)}" rel="noopener">Facebook</a>`,
+    `<a href="${esc(LINKEDIN_URL)}" rel="noopener">LinkedIn</a>`,
     `<a href="${esc(GITHUB_URL)}" rel="noopener">GitHub</a>`,
   )
   parts.push('</nav>')
@@ -252,7 +260,7 @@ function renderPage(route) {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      href="${FONT_HREF}"
       rel="stylesheet"
     />
     <link rel="alternate" type="application/rss+xml" title="${esc(`${BRAND} — YouTube`)}" href="${esc(YOUTUBE_SUBSCRIBE_URL)}" />
@@ -279,6 +287,8 @@ function renderPage(route) {
         <a href="${esc(`${SITE_URL}/youtube/`)}">YouTube Channel</a> ·
         <a href="${esc(`${SITE_URL}/contact/`)}">Contact</a> ·
         <a href="${esc(YOUTUBE_URL)}">YouTube @dtcybersl1</a> ·
+        <a href="${esc(FACEBOOK_URL)}">Facebook</a> ·
+        <a href="${esc(LINKEDIN_URL)}">LinkedIn</a> ·
         <a href="${esc(GITHUB_URL)}">GitHub</a>
       </p>
       <p>${esc(`JavaScript is required for the full interactive experience of ${SITE_NAME}.`)}</p>
