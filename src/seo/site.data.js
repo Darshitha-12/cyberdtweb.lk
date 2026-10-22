@@ -9,7 +9,7 @@
  * When the custom domain goes live, change SITE_URL here only and rebuild.
  */
 
-export const SITE_URL = 'https://cyberdt.pages.dev'
+export const SITE_URL = 'https://main.cyberdt.pages.dev'
 
 export const BRAND = 'CYBER DT'
 export const PERSON = 'Darshitha Theekshana'
