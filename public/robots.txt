@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://darshitha-12.github.io/cyberdtweb.lk/sitemap.xml
+Sitemap: https://cyberdt.pages.dev/sitemap.xml
