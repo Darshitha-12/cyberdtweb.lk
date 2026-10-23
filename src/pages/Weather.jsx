@@ -292,7 +292,7 @@ export default function Weather() {
                   <p className="font-display text-2xl font-semibold text-white sm:text-3xl lg:text-4xl">
                     {loading ? 'දත්ත ලබාගනිමින්...' : data?.info.title}
                   </p>
-                  <p className="text-slate-400">සජීවී වායුගෝලීය දත්ත | Open-Meteo API</p>
+                  <p className="text-slate-400">සජීවී වායුගෝලීය දත්ත | Open-Meteo</p>
                 </div>
               </div>
             </div>
@@ -322,7 +322,7 @@ export default function Weather() {
         </div>
 
         <p className="mt-6 text-center text-sm text-slate-500">
-          ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුවේ නිල නිවේදන මත පදනම්ව නිර්මාණය කර ඇති අනුකරණ පද්ධතියකි. නිශ්චිත තොරතුරු සඳහා නිල ප්‍රකාශයන් සැමවිටම පරීක්ෂා කරන්න. | දත්ත මූලාශ්‍රය: Open-Meteo.com
+          ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුවේ නිල නිවේදන මත පදනම්ව නිර්මාණය කර ඇති අනුකරණ පද්ධතියකි. නිශ්චිත තොරතුරු සඳහා නිල ප්‍රකාශයන් සැමවිටම පරීක්ෂා කරන්න. | දත්ත මූලාශ්‍රය: Open-Meteo
         </p>
       </section>
     </div>
