@@ -7,6 +7,7 @@ import About from './pages/About.jsx'
 import Services from './pages/Services.jsx'
 import YouTubePage from './pages/YouTubePage.jsx'
 import Contact from './pages/Contact.jsx'
+import Weather from './pages/Weather.jsx'
 import { pageFromPath, pageHref } from './routing.js'
 import { ROUTES } from './seo/site.data.js'
 
@@ -59,6 +60,7 @@ export default function App() {
         {page === 'services' && <Services navigate={navigate} />}
         {page === 'youtube' && <YouTubePage navigate={navigate} />}
         {page === 'contact' && <Contact navigate={navigate} />}
+        {page === 'weather' && <Weather />}
       </main>
 
       <Footer navigate={navigate} />
