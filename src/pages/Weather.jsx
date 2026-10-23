@@ -1,14 +1,81 @@
 import { useEffect, useRef, useState } from 'react'
 
 const CITIES = [
-  { label: 'කොළඹ', lat: 6.9271, lon: 79.8612 },
+  // බස්නාහිර පළාත
+  { label: 'කොළඹ / Colombo', lat: 6.9271, lon: 79.8612 },
+  { label: 'ගම්පහ / Gampaha', lat: 7.084, lon: 79.9997 },
+  { label: 'නීරෝග්‍ය / Negombo', lat: 7.2083, lon: 79.8358 },
+  { label: 'මොරටුව / Moratuwa', lat: 6.773, lon: 79.8816 },
+  { label: 'පානදුර / Panadura', lat: 6.7132, lon: 79.9044 },
+  { label: 'කළුතර / Kalutara', lat: 6.5854, lon: 79.9607 },
+  { label: 'කොස්ගොඩ / Kosgoda', lat: 6.3379, lon: 80.0362 },
+  { label: 'හොරනාව / Horana', lat: 6.7167, lon: 80.0625 },
+
+  // මධ්‍යම පළාත
   { label: 'මහනුවර / Kandy', lat: 7.2906, lon: 80.6337 },
-  { label: 'ගාල්ල / Galle', lat: 6.0535, lon: 80.2210 },
-  { label: 'යාපනය / Jaffna', lat: 9.6615, lon: 80.0255 },
-  { label: 'බදුල්ල / Badulla', lat: 6.9894, lon: 81.0550 },
-  { label: 'ත්‍රිකුණාමලය / Trincomalee', lat: 8.5874, lon: 81.2152 },
+  { label: 'මාතලේ / Matale', lat: 7.4675, lon: 80.6234 },
+  { label: 'නුවරඑළිය / Nuwara Eliya', lat: 6.9497, lon: 80.7891 },
+  { label: 'හැටන් / Hatton', lat: 6.8916, lon: 80.5955 },
+  { label: 'ගිනිගත්හේන / Ginigathhena', lat: 6.9833, lon: 80.4868 },
+  { label: 'දුම්බර / Dambulla', lat: 7.86, lon: 80.651 },
+  { label: 'සීගිරිය / Sigiriya', lat: 7.957, lon: 80.7603 },
+
+  // දකුණු පළාත
+  { label: 'ගාල්ල / Galle', lat: 6.0535, lon: 80.221 },
+  { label: 'මාතර / Matara', lat: 5.9549, lon: 80.555 },
   { label: 'හම්බන්තොට / Hambantota', lat: 6.1429, lon: 81.1212 },
-  { label: 'අනුරාධපුර / Anuradhapura', lat: 7.8731, lon: 80.7718 },
+  { label: 'තංගල්ල / Tangalle', lat: 6.024, lon: 80.791 },
+  { label: 'අම්බලන්ගොඩ / Ambalangoda', lat: 6.2359, lon: 80.0538 },
+  { label: 'හික්කඩුව / Hikkaduwa', lat: 6.1395, lon: 80.1063 },
+  { label: 'වලස්මුල්ල / Weligama', lat: 5.973, lon: 80.429 },
+  { label: 'දෙනියාය / Deniyaya', lat: 6.3425, lon: 80.5597 },
+
+  // සබරගමුව පළාත
+  { label: 'රත්නපුර / Ratnapura', lat: 6.6828, lon: 80.3992 },
+  { label: 'කෑගල්ල / Kegalle', lat: 7.2513, lon: 80.3464 },
+  { label: 'අවිස්සාවේල්ල / Avissawella', lat: 6.9543, lon: 80.2046 },
+  { label: 'ඇල්ල / Ella', lat: 6.8667, lon: 81.0466 },
+  { label: 'බලංගොඩ / Balangoda', lat: 6.65, lon: 80.6875 },
+
+  // වයඹ පළාත
+  { label: 'කුරුණෑගල / Kurunegala', lat: 7.4863, lon: 80.3623 },
+  { label: 'පුත්තලම / Puttalam', lat: 8.0362, lon: 79.8283 },
+  { label: 'චිලාව / Chilaw', lat: 7.5759, lon: 79.7953 },
+  { label: 'නාරම්මල / Narammala', lat: 7.431, lon: 80.2136 },
+  { label: 'මහනුවර වයඹ / Wariyapola', lat: 7.623, lon: 80.2429 },
+
+  // උතුරු මධ්‍යම පළාත
+  { label: 'අනුරාධපුර / Anuradhapura', lat: 8.3114, lon: 80.4037 },
+  { label: 'පොළොන්නරුව / Polonnaruwa', lat: 7.9403, lon: 81.0188 },
+  { label: 'දඹුල්ල / Dambulla', lat: 7.86, lon: 80.651 },
+  { label: 'හැබරණ / Habarana', lat: 8.0329, lon: 80.7514 },
+  { label: 'ගිරිතලේ / Girithale', lat: 8.001, lon: 80.925 },
+  { label: 'මිනිගේරිය / Minneriya', lat: 8.032, lon: 80.9045 },
+
+  // නැගෙනහිර පළාත
+  { label: 'ත්‍රිකුණාමලය / Trincomalee', lat: 8.5874, lon: 81.2152 },
+  { label: 'මඩකලපුව / Batticaloa', lat: 7.731, lon: 81.6747 },
+  { label: 'කල್ಮුණේ / Kalmunai', lat: 7.4167, lon: 81.8167 },
+  { label: 'අම්පාර / Ampara', lat: 7.2975, lon: 81.682 },
+  { label: 'සමන්තුරේ / Sammanthurai', lat: 7.3667, lon: 81.8 },
+  { label: 'කන්තලේ / Kantale', lat: 8.358, lon: 81.006 },
+
+  // උතුරු පළාත
+  { label: 'යාපනය / Jaffna', lat: 9.6615, lon: 80.0255 },
+  { label: 'කිලිනොච්චි / Kilinochchi', lat: 9.3803, lon: 80.377 },
+  { label: 'මුලතිව් / Mullaitivu', lat: 9.2671, lon: 80.8142 },
+  { label: 'වව්නියාව / Vavuniya', lat: 8.7514, lon: 80.4971 },
+  { label: 'මාන්නාරම / Mannar', lat: 8.977, lon: 79.913 },
+  { label: 'පොන්තිපෙට්ට / Point Pedro', lat: 9.8167, lon: 80.2333 },
+  { label: 'චාවකච්චේරි / Chavakachcheri', lat: 9.6667, lon: 80.15 },
+
+  // උව පළාත
+  { label: 'බදුල්ල / Badulla', lat: 6.9894, lon: 81.055 },
+  { label: 'බණ්ඩාරවෙල / Bandarawela', lat: 6.8259, lon: 80.9982 },
+  { label: 'මොනරාගල / Monaragala', lat: 6.8714, lon: 81.3487 },
+  { label: 'හපුතලේ / Haputale', lat: 6.7667, lon: 80.9667 },
+  { label: 'වෙල්ලවාය / Wellawaya', lat: 6.7333, lon: 81.1 },
+  { label: 'බිඟුරූ / Bibile', lat: 7.1667, lon: 81.2167 },
 ]
 
 const WEATHER_MAP = [
