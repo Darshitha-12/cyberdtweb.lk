@@ -98,6 +98,87 @@ const WEATHER_MAP = [
   { codes: [96, 99], title: 'අකුණු සහිත දැඩි ගොරෝසු වැසි', icon: '⛈️' },
 ]
 
+const BULLETINS = [
+  {
+    id: 1,
+    type: 'morning',
+    issuedBy: 'ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුව',
+    time: 'පාන්දර 06:00',
+    title: 'ප්‍රභාත් කාලගුණ විස්තරය',
+    content:
+      'අද දිනයේ බස්නාහිර, දකුණු සහ සබරගමුව පළාත්වල සමහර ප්‍රදේශවල තහබු වැසි ලැබිය හැකිය. අනෙක් ප්‍රදේශවල ප්‍රධාන වශයෙන් වලාකුළු සහිත කාලගුණයක් පවතිනු ඇත. සවස් කාලය වන විට තහබු වැසි තීව්‍රත්වය වැඩි විය හැකිය.',
+  },
+  {
+    id: 2,
+    type: 'general',
+    issuedBy: 'ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුව',
+    time: 'පාන්දර 09:30',
+    title: 'අන්තර්-මෝසම් තත්ත්වය පිළිබඳ යාවත්කාලීනය',
+    content:
+      'අද සහ හෙට දිනවල දී දකුණ, නිරිත හා බස්නාහිර දිශාවලින් තරමක් තෙත් වායු ස්‍රෝතයක් බලපෑමට ලක්වීම හේතුවෙන් බස්නාහිර, දකුණු, සබරගමුව හා මධ්‍යම කඳුකරයේ සමහර ප්‍රදේශවලට තරමක් සිට දැඩි තරමේ වැසි සහ ප්‍රබල සුළං අපේක්ෂා කෙරේ.',
+  },
+  {
+    id: 3,
+    type: 'evening',
+    issuedBy: 'ක්‍රියාකාරී කාලගුණ කාර්යාලය',
+    time: 'සවස 03:00',
+    title: 'සන්ධ්‍යා කාලගුණ යාවත්කාලීනය',
+    content:
+      'ගිනිගත්හේන, හපුතලේ, නුවරඑළිය වැනි කඳුකර ප්‍රදේශවල පමණක් නොව පහළ දී ඇති ප්‍රදේශවලද තහබු වැසි සහ අකුණු සහිත කුණාටු සිදුවීමට ඉඩ ඇත. මාර්ග භාවිතා කරන නායකයින් පමණින් හා පරිස්සමින් කටයුතු කරන ලෙස දැනුම් දෙනු ලැබේ.',
+  },
+]
+
+const PROVINCE_SUMMARY = [
+  {
+    province: 'බස්නාහිර පළාත (Western)',
+    icon: '🌧️',
+    forecast: 'සමහර ප්‍රදේශවල තහබු වැසි. කොළඹ, ගම්පහ, කළුතර යනාදී ප්‍රදේශවල සවස් වරුවේ වැසි තීව්‍ර විය හැකිය.',
+    tempRange: '25 °C - 31 °C',
+  },
+  {
+    province: 'මධ්‍යම පළාත (Central)',
+    icon: '🌦️',
+    forecast: 'කඳුකර ප්‍රදේශවල දහවල් වරුවේ තහබු වැසි සහ අකුණු. නුවරඑළිය වැනි උස් ප්‍රදේශවල වායු පීඩනය පහත වැටිය හැකිය.',
+    tempRange: '16 °C - 26 °C',
+  },
+  {
+    province: 'දකුණු පළාත (Southern)',
+    icon: '🌊',
+    forecast: 'ගාල්ල, මාතර, හම්බන්තොට ප්‍රදේශවලට තරමක් සිට දැඩි තරමේ වැසි. මුහුදු භාවිතයෙදී තරඟකාරී රළ සහ ප්‍රබල සුළං ගැන අවධානයෙන් සිටින්න.',
+    tempRange: '25 °C - 30 °C',
+  },
+  {
+    province: 'සබරගමුව පළාත (Sabaragamuwa)',
+    icon: '⛈️',
+    forecast: 'රත්නපුර, කෑගල්ල දිස්ත්‍රික්කවල තහබු වැසි සහ අකුණු සහිත කුණාටු. නායයෑම් ඇති ප්‍රදේශවල වැඩි අවධානයක් දැක්විය යුතුය.',
+    tempRange: '22 °C - 29 °C',
+  },
+  {
+    province: 'වයඹ පළාත (North Western)',
+    icon: '⛅',
+    forecast: 'ප්‍රධාන වශයෙන් අර්ධ වලාකුළු සහිත කාලගුණයක්. දිවා කාලයේදී තනි තනි තහබු වැසි ලැබීමට ඉඩ ඇත.',
+    tempRange: '25 °C - 31 °C',
+  },
+  {
+    province: 'නැගෙනහිර පළාත (Eastern)',
+    icon: '🌤️',
+    forecast: 'බොහෝ දුරට නිසි හෝ අර්ධ වලාකුළු සහිත කාලගුණයක්. සවස් යාමයේදී ත්‍රිකුණාමලය, මඩකලපුව ප්‍රදේශවල ස්වල්ප තහබු වැසි විය හැකිය.',
+    tempRange: '26 °C - 32 °C',
+  },
+  {
+    province: 'උතුරු පළාත (Northern)',
+    icon: '🌤️',
+    forecast: 'සාමාන්‍යයෙන් ශුෂ්ක හෝ අර්ධ වලාකුළු සහිත කාලගුණයක්. මධ්‍යාහ්න කාලයේදී ව්‍යවහාරික උෂ්ණත්වය මඳක් ඉහළ යා හැකිය.',
+    tempRange: '27 °C - 33 °C',
+  },
+  {
+    province: 'උතුරු මධ්‍යම හා උව පළාත (NCP & Uva)',
+    icon: '🌦️',
+    forecast: 'අනුරාධපුර, පොළොන්නරුව, බදුල්ල, මොනරාගල ප්‍රදේශවල සවස් කාලයේ තහබු වැසි සහ අකුණු සහිත කුණාටු සිදුවිය හැකිය.',
+    tempRange: '20 °C - 30 °C',
+  },
+]
+
 function getWeatherInfo(code) {
   const match = WEATHER_MAP.find((item) => item.codes.includes(code))
   return match || { title: 'කාලගුණ තත්ත්වය', icon: '🌤️' }
@@ -111,6 +192,9 @@ export default function Weather() {
   const [lastUpdate, setLastUpdate] = useState('--:--:--')
   const [showAlert, setShowAlert] = useState(false)
   const [alertText, setAlertText] = useState({ title: '', body: '' })
+  const [isBulletinOpen, setIsBulletinOpen] = useState(true)
+  const [warningActive, setWarningActive] = useState(false)
+  const [warningMsg, setWarningMsg] = useState('')
 
   const intervalRef = useRef(null)
   const countdownRef = useRef(null)
@@ -153,6 +237,23 @@ export default function Weather() {
       const heavyRainCodes = [65, 80, 81, 82, 95, 96, 99]
       const isHeavyRain = heavyRainCodes.includes(current.weather_code) || nextProb >= 70
       const isStrongWind = Math.round(current.wind_speed_10m) >= 40
+      const isThunder = [95, 96, 99].includes(current.weather_code)
+
+      if (isHeavyRain || isStrongWind || isThunder) {
+        setWarningActive(true)
+        if (isHeavyRain && isStrongWind && isThunder) {
+          setWarningMsg('කාලගුණ විද්‍යා දෙපාර්තමේන්තු අනතුරු ඇඟවීමයි – දැඩි වැසි, අකුණු සහිත කුණාටු හා ප්‍රබල සුළං අපේක්ෂා කෙරේ.')
+        } else if (isHeavyRain && isThunder) {
+          setWarningMsg('කාලගුණ විද්‍යා දෙපාර්තමේන්තු අනතුරු ඇඟවීමයි – අකුණු සහිත දැඩි වැසි තත්ත්වයක් අපේක්ෂා කෙරේ.')
+        } else if (isStrongWind) {
+          setWarningMsg('කාලගුණ විද්‍යා දෙපාර්තමේන්තු අනතුරු ඇඟවීමයි – සමහර ප්‍රදේශවල ප්‍රබල සුළං ඇතිවිය හැකිය.')
+        } else {
+          setWarningMsg('කාලගුණ විද්‍යා දෙපාර්තමේන්තු අනතුරු ඇඟවීමයි – තහබු වැසි හේතුවෙන් ගංවතුර හා ජල ගැලීම් ඇතිවිය හැකිය.')
+        }
+      } else {
+        setWarningActive(false)
+        setWarningMsg('')
+      }
 
       if (isHeavyRain || isStrongWind) {
         if (isHeavyRain && isStrongWind) {
@@ -201,6 +302,7 @@ export default function Weather() {
   }, [selectedIndex])
 
   const progress = (countdown / 60) * 100
+  const bulletinTime = new Date().toLocaleTimeString('si-LK', { hour: '2-digit', minute: '2-digit' })
 
   return (
     <div className="pt-32 md:pt-40">
@@ -208,12 +310,30 @@ export default function Weather() {
         <p className="eyebrow">ශ්‍රී ලංකාව සඳහා සජීවී කාලගුණය</p>
         <h1 className="page-title mt-4">ශ්‍රී ලංකා සජීවී කාලගුණ වාර්තාව</h1>
         <p className="page-lede mt-5">
-          Open-Meteo API මඟින් ලබාගන්නා සත්‍ය කාලීන කාලගුණ දත්ත. නගරය තෝරා සෑම තත්පර 60කට වරක් ස්වයංක්‍රීයව යාවත්කාලීන වේ.
+          නිල කාලගුණ විද්‍යා දෙපාර්තමේන්තුවට සමානව නිර්මාණය කර ඇති දිනපතා කාලගුණ නිවේදන, අනතුරු ඇඟවීම් සහ ප්‍රදේශ අනුව සාරාංශයන් සහිත සජීවී කාලගුණ පද්ධතියක්.
         </p>
       </section>
 
+      {warningActive && (
+        <section className="relative mx-auto mt-6 max-w-6xl px-5 lg:px-6">
+          <div className="relative overflow-hidden rounded-2xl border border-amber-400/80 bg-gradient-to-r from-amber-500/20 via-red-500/20 to-amber-500/20 px-4 py-3 text-center shadow-[0_40px_90px_-70px_rgba(251,191,36,0.9)]">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent" />
+            <div className="relative flex flex-wrap items-center justify-center gap-3 text-sm sm:text-base">
+              <span className="inline-flex items-center gap-2 rounded-full border border-amber-300/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-amber-200">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-300 opacity-75"></span>
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-300"></span>
+                </span>
+                කාලගුණ විද්‍යා දෙපාර්තමේන්තු අනතුරු ඇඟවීමයි
+              </span>
+              <p className="text-amber-50/90">{warningMsg}</p>
+            </div>
+          </div>
+        </section>
+      )}
+
       {showAlert && (
-        <section className="relative mx-auto mt-8 max-w-6xl px-5 lg:px-6">
+        <section className="relative mx-auto mt-6 max-w-6xl px-5 lg:px-6">
           <div className="relative overflow-hidden rounded-2xl border border-red-500/70 bg-gradient-to-b from-red-500/20 to-red-950/40 p-6 text-center shadow-[0_60px_120px_-80px_rgba(239,68,68,0.9)] animate-pulse">
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-red-400/80 to-transparent" />
             <div className="flex flex-col items-center gap-3">
@@ -247,7 +367,7 @@ export default function Weather() {
                     <select
                       value={selectedIndex}
                       onChange={(e) => setSelectedIndex(Number(e.target.value))}
-                      className="appearance-none rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2 pr-10 text-sm text-slate-200 outline-none transition-colors focus:border-cyan-400/60"
+                      className="max-w-[280px] appearance-none rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2 pr-10 text-sm text-slate-200 outline-none transition-colors focus:border-cyan-400/60 sm:max-w-[340px]"
                     >
                       {CITIES.map((c, idx) => (
                         <option key={c.label} value={idx}>
@@ -320,9 +440,81 @@ export default function Weather() {
             </div>
           </div>
         </div>
+      </section>
 
+      <section className="relative mx-auto mt-10 max-w-6xl px-5 lg:px-6">
+        <div className="cyber-card relative overflow-hidden">
+          <button
+            onClick={() => setIsBulletinOpen((v) => !v)}
+            className="flex w-full flex-col items-start gap-3 p-6 text-left sm:flex-row sm:items-center sm:justify-between sm:p-8"
+          >
+            <div className="flex items-center gap-3">
+              <div className="relative grid h-11 w-11 place-items-center rounded-lg border border-cyan-400/40 bg-cyan-400/10 text-cyan-300">
+                <span className="text-lg">📰</span>
+                <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_0_6px_rgba(52,211,153,0.12)]" />
+              </div>
+              <div>
+                <p className="font-display text-lg font-semibold text-white sm:text-xl">නිල කාලගුණ නිවේදන (Official Bulletins)</p>
+                <p className="text-sm text-slate-400">ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුව / ක්‍රියාකාරී කාලගුණ කාර්යාලය</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 text-sm text-slate-400">
+              <span>අවසන් යාවත්කාලීනය: {bulletinTime}</span>
+              <span className={`transition-transform duration-300 ${isBulletinOpen ? 'rotate-180' : ''}`}>▾</span>
+            </div>
+          </button>
+          {isBulletinOpen && (
+            <div className="grid gap-4 border-t border-slate-800/80 p-6 sm:grid-cols-2 lg:grid-cols-3 sm:p-8">
+              {BULLETINS.map((bulletin) => (
+                <article key={bulletin.id} className="relative overflow-hidden rounded-xl border border-slate-800/80 bg-slate-900/40 p-5">
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent" />
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.25em] text-cyan-300/80">
+                        {bulletin.type === 'morning' ? 'ප්‍රභාත් නිවේදනය' : bulletin.type === 'evening' ? 'සන්ධ්‍යා නිවේදනය' : 'සාමාන්‍ය යාවත්කාලීනය'}
+                      </p>
+                      <h3 className="mt-2 font-display text-base font-semibold text-white">{bulletin.title}</h3>
+                    </div>
+                    <span className="rounded-full border border-slate-700 px-3 py-1 text-xs text-slate-400">{bulletin.time}</span>
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-300">{bulletin.content}</p>
+                  <p className="mt-4 text-xs text-slate-500">නිකුත් කළේ: {bulletin.issuedBy}</p>
+                </article>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="relative mx-auto mt-10 max-w-6xl px-5 lg:px-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="eyebrow">දිස්ත්‍රික්ක හා පළාත් අනුව සාරාංශය</p>
+            <h2 className="section-title mt-4">දිනපතා කාලගුණ සාරාංශය</h2>
+            <p className="mt-3 text-sm text-slate-400">ශ්‍රී ලංකාවේ ප්‍රධාන පළාත් අට අනුව අපේක්ෂිත කාලගුණ රටාව</p>
+          </div>
+          <p className="text-xs uppercase tracking-[0.25em] text-slate-500">අනුකරණය කරන ලද නිල සාරාංශය</p>
+        </div>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {PROVINCE_SUMMARY.map((province) => (
+            <article key={province.province} className="cyber-card relative overflow-hidden p-5">
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent" />
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-sm font-medium text-white">{province.province}</p>
+                  <p className="mt-1 text-xs text-slate-500">උෂ්ණත්ව පරාසය: {province.tempRange}</p>
+                </div>
+                <span className="text-xl">{province.icon}</span>
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-slate-300">{province.forecast}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="relative mx-auto mt-10 max-w-6xl px-5 pb-4 lg:px-6">
         <p className="mt-6 text-center text-sm text-slate-500">
-          ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුවේ නිල නිවේදන මත පදනම්ව නිර්මාණය කර ඇති අනුකරණ පද්ධතියකි. නිශ්චිත තොරතුරු සඳහා නිල ප්‍රකාශයන් සැමවිටම පරීක්ෂා කරන්න. | දත්ත මූලාශ්‍රය: Open-Meteo
+          මෙම පිටුව ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුවේ (Department of Meteorology, Sri Lanka) ප්‍රසිද්ධ නිවේදන ආකෘතිය මත අනුකරණය කර නිර්මාණය කර ඇත. සැබෑ ගුරුත්‍රක අවස්ථාවලදී නිශ්චිත තොරතුරු සඳහා නිල වෙබ් අඩවිය හෝ නිල ප්‍රකාශයන් අනිවාර්යයෙන්ම සලකා බලන්න. | දත්ත මූලාශ්‍රය: Open-Meteo
         </p>
       </section>
     </div>
