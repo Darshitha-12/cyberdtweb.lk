@@ -148,3 +148,41 @@
       radial-gradient(48rem 26rem at 88% 4%, rgba(16, 185, 129, 0.1), transparent 62%);
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Sinhala typography                                                  */
+/* ------------------------------------------------------------------ */
+/* Loaded outside Tailwind's cascade layers so these rules win over the
+   tracking/line-height utilities below. Sinhala is a complex script:
+   any letter-spacing breaks conjuncts (ශ්‍රී, ක්‍ර, ද්‍ර) and pushes the
+   vowel signs (ේ, ෝ, ෟ) away from their base glyph, which is what makes
+   text look "unmatched". Keep tracking neutral and give the script a
+   little more vertical room than Latin. */
+
+[lang='si'],
+[lang='si'] * {
+  letter-spacing: normal;
+  text-transform: none;
+  font-variant-ligatures: normal;
+}
+
+[lang='si'] p,
+[lang='si'] li,
+[lang='si'] dd,
+[lang='si'] dt {
+  line-height: 1.85;
+}
+
+.font-sinhala,
+[lang='si'] .font-sinhala {
+  font-family: 'Noto Sans Sinhala', 'Iskoola Pota', 'Nirmala UI', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Headings set in Sinhala need slightly looser leading so the marks
+   above and below the baseline never clip. */
+[lang='si'] h1,
+[lang='si'] h2,
+[lang='si'] h3,
+[lang='si'] h4 {
+  line-height: 1.5;
+}

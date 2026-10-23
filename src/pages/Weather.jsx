@@ -4,12 +4,12 @@ const CITIES = [
   // බස්නාහිර පළාත
   { label: 'කොළඹ / Colombo', lat: 6.9271, lon: 79.8612 },
   { label: 'ගම්පහ / Gampaha', lat: 7.084, lon: 79.9997 },
-  { label: 'නීරෝග්‍ය / Negombo', lat: 7.2083, lon: 79.8358 },
+  { label: 'මීගමුව / Negombo', lat: 7.2083, lon: 79.8358 },
   { label: 'මොරටුව / Moratuwa', lat: 6.773, lon: 79.8816 },
   { label: 'පානදුර / Panadura', lat: 6.7132, lon: 79.9044 },
   { label: 'කළුතර / Kalutara', lat: 6.5854, lon: 79.9607 },
   { label: 'කොස්ගොඩ / Kosgoda', lat: 6.3379, lon: 80.0362 },
-  { label: 'හොරනාව / Horana', lat: 6.7167, lon: 80.0625 },
+  { label: 'හොරණ / Horana', lat: 6.7167, lon: 80.0625 },
 
   // මධ්‍යම පළාත
   { label: 'මහනුවර / Kandy', lat: 7.2906, lon: 80.6337 },
@@ -17,7 +17,6 @@ const CITIES = [
   { label: 'නුවරඑළිය / Nuwara Eliya', lat: 6.9497, lon: 80.7891 },
   { label: 'හැටන් / Hatton', lat: 6.8916, lon: 80.5955 },
   { label: 'ගිනිගත්හේන / Ginigathhena', lat: 6.9833, lon: 80.4868 },
-  { label: 'දුම්බර / Dambulla', lat: 7.86, lon: 80.651 },
   { label: 'සීගිරිය / Sigiriya', lat: 7.957, lon: 80.7603 },
 
   // දකුණු පළාත
@@ -27,7 +26,7 @@ const CITIES = [
   { label: 'තංගල්ල / Tangalle', lat: 6.024, lon: 80.791 },
   { label: 'අම්බලන්ගොඩ / Ambalangoda', lat: 6.2359, lon: 80.0538 },
   { label: 'හික්කඩුව / Hikkaduwa', lat: 6.1395, lon: 80.1063 },
-  { label: 'වලස්මුල්ල / Weligama', lat: 5.973, lon: 80.429 },
+  { label: 'වැලිගම / Weligama', lat: 5.973, lon: 80.429 },
   { label: 'දෙනියාය / Deniyaya', lat: 6.3425, lon: 80.5597 },
 
   // සබරගමුව පළාත
@@ -40,15 +39,15 @@ const CITIES = [
   // වයඹ පළාත
   { label: 'කුරුණෑගල / Kurunegala', lat: 7.4863, lon: 80.3623 },
   { label: 'පුත්තලම / Puttalam', lat: 8.0362, lon: 79.8283 },
-  { label: 'චිලාව / Chilaw', lat: 7.5759, lon: 79.7953 },
+  { label: 'හලාවත / Chilaw', lat: 7.5759, lon: 79.7953 },
   { label: 'නාරම්මල / Narammala', lat: 7.431, lon: 80.2136 },
-  { label: 'මහනුවර වයඹ / Wariyapola', lat: 7.623, lon: 80.2429 },
+  { label: 'වාරියපොල / Wariyapola', lat: 7.623, lon: 80.2429 },
 
   // උතුරු මධ්‍යම පළාත
   { label: 'අනුරාධපුර / Anuradhapura', lat: 8.3114, lon: 80.4037 },
   { label: 'පොළොන්නරුව / Polonnaruwa', lat: 7.9403, lon: 81.0188 },
   { label: 'දඹුල්ල / Dambulla', lat: 7.86, lon: 80.651 },
-  { label: 'හැබරණ / Habarana', lat: 8.0329, lon: 80.7514 },
+  { label: 'හබරණ / Habarana', lat: 8.0329, lon: 80.7514 },
   { label: 'ගිරිතලේ / Girithale', lat: 8.001, lon: 80.925 },
   { label: 'මිනිගේරිය / Minneriya', lat: 8.032, lon: 80.9045 },
 
@@ -65,8 +64,8 @@ const CITIES = [
   { label: 'කිලිනොච්චි / Kilinochchi', lat: 9.3803, lon: 80.377 },
   { label: 'මුලතිව් / Mullaitivu', lat: 9.2671, lon: 80.8142 },
   { label: 'වව්නියාව / Vavuniya', lat: 8.7514, lon: 80.4971 },
-  { label: 'මාන්නාරම / Mannar', lat: 8.977, lon: 79.913 },
-  { label: 'පොන්තිපෙට්ට / Point Pedro', lat: 9.8167, lon: 80.2333 },
+  { label: 'මන්නාරම / Mannar', lat: 8.977, lon: 79.913 },
+  { label: 'පේදුරු තුඩුව / Point Pedro', lat: 9.8167, lon: 80.2333 },
   { label: 'චාවකච්චේරි / Chavakachcheri', lat: 9.6667, lon: 80.15 },
 
   // උව පළාත
@@ -75,27 +74,27 @@ const CITIES = [
   { label: 'මොනරාගල / Monaragala', lat: 6.8714, lon: 81.3487 },
   { label: 'හපුතලේ / Haputale', lat: 6.7667, lon: 80.9667 },
   { label: 'වෙල්ලවාය / Wellawaya', lat: 6.7333, lon: 81.1 },
-  { label: 'බිඟුරූ / Bibile', lat: 7.1667, lon: 81.2167 },
+  { label: 'බිබිල / Bibile', lat: 7.1667, lon: 81.2167 },
 ]
 
 const WEATHER_MAP = [
-  { codes: [0], title: 'නිසි අහස', icon: '☀️' },
-  { codes: [1, 2], title: 'අර්ධ වලාකුළු සහිත', icon: '⛅' },
-  { codes: [3], title: 'බොහෝ වලාකුළු සහිත', icon: '☁️' },
+  { codes: [0], title: 'පැහැදිලි අහස', icon: '☀️' },
+  { codes: [1, 2], title: 'අර්ධ වළාකුළු සහිත', icon: '⛅' },
+  { codes: [3], title: 'බොහෝ වළාකුළු සහිත', icon: '☁️' },
   { codes: [45, 48], title: 'මීදුම සහිත', icon: '🌫️' },
   { codes: [51, 53, 55], title: 'සැහැල්ලු තෙත් බිඳු සහිත', icon: '🌦️' },
-  { codes: [56, 57], title: 'සැහැල්ලු ශීත ස්නීහනය සහිත', icon: '🌧️' },
+  { codes: [56, 57], title: 'සැහැල්ලු හිම මිශ්‍ර වැසි', icon: '🌧️' },
   { codes: [61, 63], title: 'මධ්‍යම තරමේ වැසි', icon: '🌧️' },
   { codes: [65], title: 'දැඩි වැසි', icon: '🌧️' },
   { codes: [66, 67], title: 'ශීත වැසි', icon: '🌧️' },
   { codes: [71, 73], title: 'මධ්‍යම තරමේ හිම වැසි', icon: '🌨️' },
   { codes: [75], title: 'දැඩි හිම වැසි', icon: '❄️' },
-  { codes: [77], title: 'හිම කැටිකුරු', icon: '🌨️' },
-  { codes: [80, 81], title: 'තහබු වැසි වර්ෂාව', icon: '⛈️' },
-  { codes: [82], title: 'ඉතා දැඩි තහබු වැසි', icon: '⛈️' },
-  { codes: [85, 86], title: 'තහබු හිම වැසි', icon: '🌨️' },
+  { codes: [77], title: 'හිම ඇට', icon: '🌨️' },
+  { codes: [80, 81], title: 'තදබල වැසි', icon: '⛈️' },
+  { codes: [82], title: 'ඉතා දැඩි වැසි', icon: '⛈️' },
+  { codes: [85, 86], title: 'තදබල හිම වැසි', icon: '🌨️' },
   { codes: [95], title: 'අකුණු සහිත කුණාටු', icon: '⛈️' },
-  { codes: [96, 99], title: 'අකුණු සහිත දැඩි ගොරෝසු වැසි', icon: '⛈️' },
+  { codes: [96, 99], title: 'අකුණු සහිත දැඩි වැසි', icon: '⛈️' },
 ]
 
 const BULLETINS = [
@@ -104,9 +103,9 @@ const BULLETINS = [
     type: 'morning',
     issuedBy: 'ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුව',
     time: 'පාන්දර 06:00',
-    title: 'ප්‍රභාත් කාලගුණ විස්තරය',
+    title: 'උදෑසන කාලගුණ විස්තරය',
     content:
-      'අද දිනයේ බස්නාහිර, දකුණු සහ සබරගමුව පළාත්වල සමහර ප්‍රදේශවල තහබු වැසි ලැබිය හැකිය. අනෙක් ප්‍රදේශවල ප්‍රධාන වශයෙන් වලාකුළු සහිත කාලගුණයක් පවතිනු ඇත. සවස් කාලය වන විට තහබු වැසි තීව්‍රත්වය වැඩි විය හැකිය.',
+      'අද දිනයේ බස්නාහිර, දකුණු සහ සබරගමුව පළාත්වල සමහර ප්‍රදේශවල තදබල වැසි ලැබිය හැකිය. අනෙක් ප්‍රදේශවල ප්‍රධාන වශයෙන් වළාකුළු සහිත කාලගුණයක් පවතිනු ඇත. සවස් කාලය වන විට වැසි තීව්‍රතාවය වැඩි විය හැකිය.',
   },
   {
     id: 2,
@@ -124,7 +123,7 @@ const BULLETINS = [
     time: 'සවස 03:00',
     title: 'සන්ධ්‍යා කාලගුණ යාවත්කාලීනය',
     content:
-      'ගිනිගත්හේන, හපුතලේ, නුවරඑළිය වැනි කඳුකර ප්‍රදේශවල පමණක් නොව පහළ දී ඇති ප්‍රදේශවලද තහබු වැසි සහ අකුණු සහිත කුණාටු සිදුවීමට ඉඩ ඇත. මාර්ග භාවිතා කරන නායකයින් පමණින් හා පරිස්සමින් කටයුතු කරන ලෙස දැනුම් දෙනු ලැබේ.',
+      'ගිනිගත්හේන, හපුතලේ, නුවරඑළිය වැනි කඳුකර ප්‍රදේශවල පමණක් නොව පහතරට ප්‍රදේශවලද තදබල වැසි සහ අකුණු සහිත කුණාටු සිදුවීමට ඉඩ ඇත. මාර්ග භාවිතා කරන රියදුරන් වඩාත් පරෙස්සමින් කටයුතු කරන ලෙස දැනුම් දෙනු ලැබේ.',
   },
 ]
 
@@ -132,49 +131,49 @@ const PROVINCE_SUMMARY = [
   {
     province: 'බස්නාහිර පළාත (Western)',
     icon: '🌧️',
-    forecast: 'සමහර ප්‍රදේශවල තහබු වැසි. කොළඹ, ගම්පහ, කළුතර යනාදී ප්‍රදේශවල සවස් වරුවේ වැසි තීව්‍ර විය හැකිය.',
+    forecast: 'සමහර ප්‍රදේශවල තදබල වැසි. කොළඹ, ගම්පහ, කළුතර යනාදී ප්‍රදේශවල සවස් වරුවේ වැසි තීව්‍ර විය හැකිය.',
     tempRange: '25 °C - 31 °C',
   },
   {
     province: 'මධ්‍යම පළාත (Central)',
     icon: '🌦️',
-    forecast: 'කඳුකර ප්‍රදේශවල දහවල් වරුවේ තහබු වැසි සහ අකුණු. නුවරඑළිය වැනි උස් ප්‍රදේශවල වායු පීඩනය පහත වැටිය හැකිය.',
+    forecast: 'කඳුකර ප්‍රදේශවල දහවල් වරුවේ තදබල වැසි සහ අකුණු. නුවරඑළිය වැනි උස් ප්‍රදේශවල උෂ්ණත්වය 16 °C පමණ දක්වා පහත වැටිය හැකිය.',
     tempRange: '16 °C - 26 °C',
   },
   {
     province: 'දකුණු පළාත (Southern)',
     icon: '🌊',
-    forecast: 'ගාල්ල, මාතර, හම්බන්තොට ප්‍රදේශවලට තරමක් සිට දැඩි තරමේ වැසි. මුහුදු භාවිතයෙදී තරඟකාරී රළ සහ ප්‍රබල සුළං ගැන අවධානයෙන් සිටින්න.',
+    forecast: 'ගාල්ල, මාතර, හම්බන්තොට ප්‍රදේශවලට තරමක් සිට දැඩි තරමේ වැසි. මුහුදු ගමන්වලදී රළ ඉහළ යා හැකි බැවින් ප්‍රබල සුළං ගැන අවධානයෙන් සිටින්න.',
     tempRange: '25 °C - 30 °C',
   },
   {
     province: 'සබරගමුව පළාත (Sabaragamuwa)',
     icon: '⛈️',
-    forecast: 'රත්නපුර, කෑගල්ල දිස්ත්‍රික්කවල තහබු වැසි සහ අකුණු සහිත කුණාටු. නායයෑම් ඇති ප්‍රදේශවල වැඩි අවධානයක් දැක්විය යුතුය.',
+    forecast: 'රත්නපුර, කෑගල්ල දිස්ත්‍රික්කවල තදබල වැසි සහ අකුණු සහිත කුණාටු. නායයෑම් ඇති ප්‍රදේශවල වැඩි අවධානයක් දැක්විය යුතුය.',
     tempRange: '22 °C - 29 °C',
   },
   {
     province: 'වයඹ පළාත (North Western)',
     icon: '⛅',
-    forecast: 'ප්‍රධාන වශයෙන් අර්ධ වලාකුළු සහිත කාලගුණයක්. දිවා කාලයේදී තනි තනි තහබු වැසි ලැබීමට ඉඩ ඇත.',
+    forecast: 'ප්‍රධාන වශයෙන් අර්ධ වළාකුළු සහිත කාලගුණයක්. දිවා කාලයේදී තනි තනි තදබල වැසි ලැබීමට ඉඩ ඇත.',
     tempRange: '25 °C - 31 °C',
   },
   {
     province: 'නැගෙනහිර පළාත (Eastern)',
     icon: '🌤️',
-    forecast: 'බොහෝ දුරට නිසි හෝ අර්ධ වලාකුළු සහිත කාලගුණයක්. සවස් යාමයේදී ත්‍රිකුණාමලය, මඩකලපුව ප්‍රදේශවල ස්වල්ප තහබු වැසි විය හැකිය.',
+    forecast: 'බොහෝ දුරට පැහැදිලි හෝ අර්ධ වළාකුළු සහිත කාලගුණයක්. සවස් යාමයේදී ත්‍රිකුණාමලය, මඩකලපුව ප්‍රදේශවල ස්වල්ප වැසි විය හැකිය.',
     tempRange: '26 °C - 32 °C',
   },
   {
     province: 'උතුරු පළාත (Northern)',
     icon: '🌤️',
-    forecast: 'සාමාන්‍යයෙන් ශුෂ්ක හෝ අර්ධ වලාකුළු සහිත කාලගුණයක්. මධ්‍යාහ්න කාලයේදී ව්‍යවහාරික උෂ්ණත්වය මඳක් ඉහළ යා හැකිය.',
+    forecast: 'සාමාන්‍යයෙන් වියළි හෝ අර්ධ වළාකුළු සහිත කාලගුණයක්. දහවල් කාලයේදී දැනෙන උෂ්ණත්වය මඳක් ඉහළ යා හැකිය.',
     tempRange: '27 °C - 33 °C',
   },
   {
     province: 'උතුරු මධ්‍යම හා උව පළාත (NCP & Uva)',
     icon: '🌦️',
-    forecast: 'අනුරාධපුර, පොළොන්නරුව, බදුල්ල, මොනරාගල ප්‍රදේශවල සවස් කාලයේ තහබු වැසි සහ අකුණු සහිත කුණාටු සිදුවිය හැකිය.',
+    forecast: 'අනුරාධපුර, පොළොන්නරුව, බදුල්ල, මොනරාගල ප්‍රදේශවල සවස් කාලයේ තදබල වැසි සහ අකුණු සහිත කුණාටු සිදුවිය හැකිය.',
     tempRange: '20 °C - 30 °C',
   },
 ]
@@ -248,7 +247,7 @@ export default function Weather() {
         } else if (isStrongWind) {
           setWarningMsg('කාලගුණ විද්‍යා දෙපාර්තමේන්තු අනතුරු ඇඟවීමයි – සමහර ප්‍රදේශවල ප්‍රබල සුළං ඇතිවිය හැකිය.')
         } else {
-          setWarningMsg('කාලගුණ විද්‍යා දෙපාර්තමේන්තු අනතුරු ඇඟවීමයි – තහබු වැසි හේතුවෙන් ගංවතුර හා ජල ගැලීම් ඇතිවිය හැකිය.')
+          setWarningMsg('කාලගුණ විද්‍යා දෙපාර්තමේන්තු අනතුරු ඇඟවීමයි – තදබල වැසි හේතුවෙන් ගංවතුර හා ජල ගැලීම් ඇතිවිය හැකිය.')
         }
       } else {
         setWarningActive(false)
@@ -264,12 +263,12 @@ export default function Weather() {
         } else if (isHeavyRain) {
           setAlertText({
             title: 'දැඩි වැසි නිවේදනයක් අපේක්ෂා කෙරේ',
-            body: 'කෙටි කාලයකදී දැඩි වර්ෂාවක් විය හැකි අතර, මාර්ගවල ජල ගැලීම් හා ගංවතුර ඇතිවිය හැකිය. වාහන පදවන විට හා ගමනාගමනයේදී පමණින් හා පරිස්සමින් කටයුතු කරන්න.',
+            body: 'කෙටි කාලයකදී දැඩි වර්ෂාවක් විය හැකි අතර, මාර්ගවල ජල ගැලීම් හා ගංවතුර ඇතිවිය හැකිය. වාහන පදවන විට හා ගමන් කරන විට වඩාත් පරෙස්සමින් කටයුතු කරන්න.',
           })
         } else {
           setAlertText({
             title: 'ප්‍රබල සුළං නිවේදනයක් අපේක්ෂා කෙරේ',
-            body: 'වියළි ගස් අතු, පරිස්සම් නොවූ ව්‍යුහයන් හා පිටත තැබූ වස්තු සුළඟට ගෙනයෑමේ අවදානම වැඩියි. නිවාස ආසන්නයේ දොරවල්, ජනේල හා සැරසිලි ආරක්ෂිතව තබා ගැනීමට අවධානය යොමු කරන්න.',
+            body: 'වියළි ගස් අතු, සුරක්ෂිත නොකළ ව්‍යුහයන් හා පිටත තැබූ වස්තු සුළඟට ගෙනයෑමේ අවදානම වැඩියි. නිවාස ආසන්නයේ දොරවල්, ජනේල හා සැරසිලි ආරක්ෂිතව තබා ගැනීමට අවධානය යොමු කරන්න.',
           })
         }
         setShowAlert(true)
@@ -283,6 +282,14 @@ export default function Weather() {
       setCountdown(60)
     }
   }
+
+  useEffect(() => {
+    const previous = document.documentElement.lang
+    document.documentElement.lang = 'si'
+    return () => {
+      document.documentElement.lang = previous || 'en'
+    }
+  }, [])
 
   useEffect(() => {
     fetchWeather()
@@ -305,7 +312,7 @@ export default function Weather() {
   const bulletinTime = new Date().toLocaleTimeString('si-LK', { hour: '2-digit', minute: '2-digit' })
 
   return (
-    <div className="pt-32 md:pt-40">
+    <div lang="si" className="font-sinhala pt-32 md:pt-40">
       <section className="relative mx-auto max-w-6xl px-5 lg:px-6">
         <p className="eyebrow">ශ්‍රී ලංකාව සඳහා සජීවී කාලගුණය</p>
         <h1 className="page-title mt-4">ශ්‍රී ලංකා සජීවී කාලගුණ වාර්තාව</h1>
@@ -412,7 +419,7 @@ export default function Weather() {
                   <p className="font-display text-2xl font-semibold text-white sm:text-3xl lg:text-4xl">
                     {loading ? 'දත්ත ලබාගනිමින්...' : data?.info.title}
                   </p>
-                  <p className="text-slate-400">සජීවී වායුගෝලීය දත්ත | Open-Meteo</p>
+                  <p className="text-slate-400">සජීවී කාලගුණ දත්ත | Open-Meteo</p>
                 </div>
               </div>
             </div>
@@ -420,9 +427,9 @@ export default function Weather() {
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 { label: 'ආර්ද්‍රතාවය', value: loading ? '--' : data?.humidity, unit: '%', icon: '💧', note: 'සාපේක්ෂ ආර්ද්‍රතාවය' },
-                { label: 'සුළඟ වේගය', value: loading ? '--' : data?.wind, unit: 'km/h', icon: '💨', note: '10m උන්නතානයෙන් මිනුම්' },
-                { label: 'වර්ෂා සම්භාවිතාව', value: loading ? '--' : data?.precipProb, unit: '%', icon: '🌧️', note: 'ලැබෙන පැය තුළ වර්ෂා අවස්ථාව' },
-                { label: 'වර්ෂා පරිමාව (අනුමානය)', value: loading ? '--' : data?.precipAmount, unit: 'mm', icon: '💦', note: 'ඊළඟ පැය තුළ අනාවැකිගත වර්ෂා' },
+                { label: 'සුළඟ වේගය', value: loading ? '--' : data?.wind, unit: 'km/h', icon: '💨', note: 'මීටර 10 උසින් මනින ලදී' },
+                { label: 'වර්ෂා සම්භාවිතාව', value: loading ? '--' : data?.precipProb, unit: '%', icon: '🌧️', note: 'ඊළඟ පැය තුළ වැසි ඇතිවීමේ අවස්ථාව' },
+                { label: 'වර්ෂා පරිමාව (අනුමානය)', value: loading ? '--' : data?.precipAmount, unit: 'mm', icon: '💦', note: 'ඊළඟ පැය තුළ අපේක්ෂිත වර්ෂාව' },
               ].map((card) => (
                 <article key={card.label} className="relative overflow-hidden rounded-xl border border-slate-800/80 bg-slate-900/40 p-5">
                   <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
@@ -471,7 +478,7 @@ export default function Weather() {
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <p className="text-xs uppercase tracking-[0.25em] text-cyan-300/80">
-                        {bulletin.type === 'morning' ? 'ප්‍රභාත් නිවේදනය' : bulletin.type === 'evening' ? 'සන්ධ්‍යා නිවේදනය' : 'සාමාන්‍ය යාවත්කාලීනය'}
+                        {bulletin.type === 'morning' ? 'උදෑසන නිවේදනය' : bulletin.type === 'evening' ? 'සන්ධ්‍යා නිවේදනය' : 'සාමාන්‍ය යාවත්කාලීනය'}
                       </p>
                       <h3 className="mt-2 font-display text-base font-semibold text-white">{bulletin.title}</h3>
                     </div>
@@ -514,7 +521,7 @@ export default function Weather() {
 
       <section className="relative mx-auto mt-10 max-w-6xl px-5 pb-4 lg:px-6">
         <p className="mt-6 text-center text-sm text-slate-500">
-          මෙම පිටුව ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුවේ (Department of Meteorology, Sri Lanka) ප්‍රසිද්ධ නිවේදන ආකෘතිය මත අනුකරණය කර නිර්මාණය කර ඇත. සැබෑ ගුරුත්‍රක අවස්ථාවලදී නිශ්චිත තොරතුරු සඳහා නිල වෙබ් අඩවිය හෝ නිල ප්‍රකාශයන් අනිවාර්යයෙන්ම සලකා බලන්න. | දත්ත මූලාශ්‍රය: Open-Meteo
+          මෙම පිටුව ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුවේ (Department of Meteorology, Sri Lanka) නිවේදන ආකෘතිය මත අනුකරණය කර නිර්මාණය කර ඇත. සැබෑ තත්ත්වයන් සඳහා නිශ්චිත තොරතුරු නිල වෙබ් අඩවියෙන් හෝ නිල ප්‍රකාශයන්ගෙන් අනිවාර්යයෙන්ම තහවුරු කරගන්න. | දත්ත මූලාශ්‍රය: Open-Meteo
         </p>
       </section>
     </div>

@@ -14,9 +14,10 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Space Grotesk"', 'Inter', 'system-ui', 'sans-serif'],
-        sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
+        display: ['"Space Grotesk"', '"Noto Sans Sinhala"', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', '"Noto Sans Sinhala"', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        sinhala: ['"Noto Sans Sinhala"', '"Iskoola Pota"', '"Nirmala UI"', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
         'glow-cyan': '0 0 0 1px rgba(34, 211, 238, 0.18), 0 22px 45px -28px rgba(34, 211, 238, 0.55)',

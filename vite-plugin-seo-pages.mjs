@@ -38,12 +38,12 @@ const FAVICON =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23080b10'/%3E%3Crect x='1.5' y='1.5' width='61' height='61' rx='12.5' fill='none' stroke='%2322d3ee' stroke-width='3'/%3E%3Ctext x='32' y='41' font-family='Segoe UI,Inter,sans-serif' font-size='22' font-weight='700' fill='%23ffffff' text-anchor='middle'%3EDT%3C/text%3E%3C/svg%3E"
 
 const FONT_HREF =
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap'
+  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap'
 
 const STATIC_CSS = `
-.seo-static{max-width:52rem;margin:0 auto;padding:7rem 1.25rem 4rem;color:#cbd5e1;font-family:'Inter',system-ui,-apple-system,Segoe UI,sans-serif;font-size:1.0625rem;line-height:1.75;background:#080b10}
-.seo-static h1{color:#fff;font-family:'Space Grotesk','Inter',system-ui,sans-serif;font-weight:700;font-size:clamp(1.9rem,4vw,2.9rem);line-height:1.15;letter-spacing:-.02em;margin:0 0 1.25rem}
-.seo-static h2{color:#fff;font-family:'Space Grotesk','Inter',system-ui,sans-serif;font-weight:600;font-size:clamp(1.3rem,2.5vw,1.7rem);letter-spacing:-.01em;margin:2.5rem 0 .85rem}
+.seo-static{max-width:52rem;margin:0 auto;padding:7rem 1.25rem 4rem;color:#cbd5e1;font-family:'Inter','Noto Sans Sinhala',system-ui,-apple-system,Segoe UI,sans-serif;font-size:1.0625rem;line-height:1.75;background:#080b10}
+.seo-static h1{color:#fff;font-family:'Space Grotesk','Noto Sans Sinhala','Inter',system-ui,sans-serif;font-weight:700;font-size:clamp(1.9rem,4vw,2.9rem);line-height:1.15;letter-spacing:-.02em;margin:0 0 1.25rem}
+.seo-static h2{color:#fff;font-family:'Space Grotesk','Noto Sans Sinhala','Inter',system-ui,sans-serif;font-weight:600;font-size:clamp(1.3rem,2.5vw,1.7rem);letter-spacing:-.01em;margin:2.5rem 0 .85rem}
 .seo-static p{margin:0 0 1.1rem}
 .seo-static ul{margin:0 0 1.4rem;padding-left:1.25rem}
 .seo-static li{margin-bottom:.6rem}
@@ -56,6 +56,9 @@ const STATIC_CSS = `
 .seo-static .seo-nav{display:flex;flex-wrap:wrap;gap:.75rem;padding-top:1.5rem;border-top:1px solid #1e293b;margin-top:2.5rem;font-size:.85rem}
 .seo-static .seo-nav a{border:1px solid rgba(148,163,184,.28);border-radius:.5rem;padding:.5rem .9rem;text-decoration:none;color:#cbd5e1}
 .seo-static .seo-nav a:hover{border-color:rgba(34,211,238,.55);color:#22d3ee}
+html[lang='si'] .seo-static,html[lang='si'] .seo-static *{letter-spacing:normal;text-transform:none}
+html[lang='si'] .seo-static p,html[lang='si'] .seo-static li,html[lang='si'] .seo-static dd{line-height:1.85}
+html[lang='si'] .seo-static h1,html[lang='si'] .seo-static h2{line-height:1.45;letter-spacing:normal}
 `.trim()
 
 function pageUrl(route) {
@@ -221,9 +224,10 @@ function staticBody(route) {
 function renderPage(route) {
   const url = pageUrl(route)
   const isHome = route.key === 'home'
+  const lang = route.slug === 'weather' ? 'si' : 'en'
 
   return `<!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="${lang}" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
