@@ -328,8 +328,8 @@ const WEATHER_MAP = [
   { codes: [71, 73], title: 'මධ්‍යම තරමේ හිම වැසි', icon: '🌨️' },
   { codes: [75], title: 'දැඩි හිම වැසි', icon: '❄️' },
   { codes: [77], title: 'හිම ඇට', icon: '🌨️' },
-  { codes: [80, 81], title: 'තදබල වැසි', icon: '⛈️' },
-  { codes: [82], title: 'ඉතා දැඩි වැසි', icon: '⛈️' },
+  { codes: [80, 81], title: 'තදබල වැසි', icon: '🌧️' },
+  { codes: [82], title: 'ඉතා දැඩි වැසි', icon: '🌧️' },
   { codes: [85, 86], title: 'තදබල හිම වැසි', icon: '🌨️' },
   { codes: [95], title: 'අකුණු සහිත කුණාටු', icon: '⛈️' },
   { codes: [96, 99], title: 'අකුණු සහිත දැඩි වැසි', icon: '⛈️' },
@@ -365,7 +365,7 @@ const BULLETINS = [
   },
 ]
 
-const PROVINCE_SUMMARY = [
+const PROVINCE_SUMMARIES = [
   {
     province: 'බස්නාහිර පළාත (Western)',
     icon: '🌧️',
@@ -416,9 +416,78 @@ const PROVINCE_SUMMARY = [
   },
 ]
 
-function getWeatherInfo(code) {
-  const match = WEATHER_MAP.find((item) => item.codes.includes(code))
-  return match || { title: 'කාලගුණ තත්ත්වය', icon: '🌤️' }
+function generateBulletinsDynamic(data, cityName) {
+  if (!data) return BULLETINS
+
+  const now = new Date()
+  const timeStr = now.toLocaleTimeString('si-LK', { hour: '2-digit', minute: '2-digit' })
+  const isRainy = data.precipProb >= 40 || [51, 53, 55, 61, 63, 65, 80, 81, 82, 95, 96, 99].includes(data.code)
+  const isThunder = [95, 96, 99].includes(data.code)
+  const isWindy = data.wind >= 30
+  const isHeavy = [65, 82, 95, 96, 99].includes(data.code) || data.precipProb >= 70
+
+  const location = cityName || 'ශ්‍රී ලංකාව'
+
+  return [
+    {
+      id: Date.now(),
+      type: 'morning',
+      issuedBy: 'ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුව',
+      time: timeStr,
+      title: 'දිනපතා කාලගුණ තොරතුරු',
+      content: isHeavy
+        ? `${location} ප්‍රදේශය සඳහා තදබල වැසි සහ අකුණු අපේක්ෂා කෙරේ. වර්ෂා සම්භාවිතාව ${data.precipProb}%ක් වන අතර සුළඟ වේගය ${data.wind} km/h දක්වා විය හැකිය. අවධානයෙන් සිටින්න.`
+        : isThunder
+        ? `${location} ප්‍රදේශය සඳහා අකුණු සහිත කුණාටු තත්ත්වයක් අපේක්ෂා කෙරේ. පිටත ගමන් කිරීමේදී පරිස්සම් වන්න.`
+        : isRainy
+        ? `${location} ප්‍රදේශය සඳහා තරමක් වැසි සහ වළාකුළු සහිත කාලගුණයක් අපේක්ෂා කෙරේ. වර්ෂා සම්භාවිතාව ${data.precipProb}%ක් වන අතර උෂ්ණත්වය ${data.temp}°C පමණ කිව හැකිය.`
+        : `${location} ප්‍රදේශය සඳහා ප්‍රධාන වශයෙන් වළාකුළු සහිත හෝ පැහැදිලි අහසක් සහිත කාලගුණයක් අපේක්ෂා කෙරේ. උෂ්ණත්වය ${data.temp}°C පමණ වන අතර ආර්ද්‍රතාවය ${data.humidity}%ක් පමණ වේ.`,
+    },
+    {
+      id: Date.now() + 1,
+      type: 'general',
+      issuedBy: 'ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුව',
+      time: timeStr,
+      title: 'යාවත්කාලීන නිවේදනය',
+      content: isWindy
+        ? `සමහර ප්‍රදේශවල ප්‍රබල සුළං (${data.wind} km/h) ඇතිවිය හැකිය. වියළි ගස් අතු සහ පිටත තැබූ වස්තු සුරක්ෂිතව තබා ගැනීමට අවධානය යොමු කරන්න.`
+        : isHeavy
+        ? 'තදබල වැසි හේතුවෙන් ගංවතුර හා ජල ගැලීම් ඇතිවිය හැකිය. පහත් ප්‍රදේශවල වාසය කරන්නන් සැලකිලිමත් විය යුතුය.'
+        : 'කාලගුණ තත්ත්වය නිරීක්ෂණය වෙමින් පවතින අතර අවශ්‍ය වන විට යාවත්කාලීන කරනු ලැබේ.',
+    },
+  ]
+}
+
+function generateProvinceSummariesDynamic(data) {
+  if (!data) return PROVINCE_SUMMARIES
+
+  const isRainy = data.precipProb >= 40 || [51, 53, 55, 61, 63, 65, 80, 81, 82, 95, 96, 99].includes(data.code)
+  const isThunder = [95, 96, 99].includes(data.code)
+  const isHeavy = [65, 82, 95, 96, 99].includes(data.code) || data.precipProb >= 70
+
+  const base = isHeavy
+    ? 'තදබල වැසි සහ අකුණු අපේක්ෂා කෙරේ.'
+    : isThunder
+    ? 'අකුණු සහිත කුණාටු අපේක්ෂා කෙරේ.'
+    : isRainy
+    ? 'තරමක් වැසි සහ වළාකුළු සහිත කාලගුණයක් අපේක්ෂා කෙරේ.'
+    : 'ප්‍රධාන වශයෙන් වළාකුළු සහිත හෝ පැහැදිලි අහසක් සහිත කාලගුණයක් අපේක්ෂා කෙරේ.'
+
+  return PROVINCE_SUMMARIES.map((p) => {
+    if (['බස්නාහිර පළාත', 'දකුණු පළාත', 'සබරගමුව පළාත'].includes(p.province)) {
+      return { ...p, forecast: isRainy || isHeavy ? `සමහර ප්‍රදේශවලට තරමක් සිට දැඩි තරමේ වැසි. ${base}` : 'බොහෝ දුරට වළාකුළු සහිත හෝ පැහැදිලි කාලගුණයක් අපේක්ෂා කෙරේ.' }
+    }
+    if (['උතුරු පළාත', 'උතුරු මධ්‍යම පළාත', 'නැගෙනහිර පළාත'].includes(p.province)) {
+      return { ...p, forecast: isRainy ? `සමහර ප්‍රදේශවලට ස්වල්ප වැසි. ${base}` : 'බොහෝ දුරට පැහැදිලි හෝ අර්ධ වළාකුළු සහිත කාලගුණයක් අපේක්ෂා කෙරේ.' }
+    }
+    if (['මධ්‍යම පළාත', 'උව පළාත'].includes(p.province)) {
+      return { ...p, forecast: isRainy || isHeavy ? `කඳුකර ප්‍රදේශවලට තරමක් සිට දැඩි තරමේ වැසි සහ අකුණු. ${base}` : 'බොහෝ දුරට වළාකුළු සහිත හෝ පැහැදිලි කාලගුණයක් අපේක්ෂා කෙරේ.' }
+    }
+    if (p.province === 'වයඹ පළාත') {
+      return { ...p, forecast: isRainy ? `සමහර ප්‍රදේශවලට තරමක් වැසි. ${base}` : 'බොහෝ දුරට පැහැදිලි හෝ අර්ධ වළාකුළු සහිත කාලගුණයක් අපේක්ෂා කෙරේ.' }
+    }
+    return { ...p, forecast: base }
+  })
 }
 
 export default function Weather() {
@@ -430,6 +499,8 @@ export default function Weather() {
   const [searching, setSearching] = useState(false)
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState(null)
+  const [dynamicBulletins, setDynamicBulletins] = useState(null)
+  const [dynamicSummaries, setDynamicSummaries] = useState(null)
   const [countdown, setCountdown] = useState(60)
   const [lastUpdate, setLastUpdate] = useState('--:--:--')
   const [showAlert, setShowAlert] = useState(false)
@@ -552,13 +623,16 @@ export default function Weather() {
       url.searchParams.set('longitude', city.lon.toString())
       url.searchParams.set('current', 'temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,precipitation')
       url.searchParams.set('hourly', 'precipitation_probability,precipitation')
+      url.searchParams.set('daily', 'weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum')
       url.searchParams.set('timezone', 'Asia/Colombo')
+      url.searchParams.set('forecast_days', '3')
 
       const res = await fetch(url.toString())
       const json = await res.json()
 
       const current = json.current
       const hourly = json.hourly
+      const daily = json.daily
 
       const info = getWeatherInfo(current.weather_code)
       const nextProb = hourly?.precipitation_probability?.[0] ?? 0
@@ -572,7 +646,21 @@ export default function Weather() {
         precipProb: Math.round(nextProb),
         precipAmount: Number(nextPrecip).toFixed(1),
         info,
+        daily,
       })
+
+      const cityName = city.label.split(' / ')[0]
+      setDynamicBulletins(generateBulletinsDynamic({
+        temp: Math.round(current.temperature_2m),
+        humidity: current.relative_humidity_2m,
+        wind: Math.round(current.wind_speed_10m),
+        code: current.weather_code,
+        precipProb: Math.round(nextProb),
+      }, cityName))
+      setDynamicSummaries(generateProvinceSummariesDynamic({
+        code: current.weather_code,
+        precipProb: Math.round(nextProb),
+      }))
 
       const now = new Date()
       setLastUpdate(now.toLocaleTimeString('si-LK', { hour: '2-digit', minute: '2-digit', second: '2-digit' }))
@@ -861,7 +949,7 @@ export default function Weather() {
           </button>
           {isBulletinOpen && (
             <div className="grid gap-4 border-t border-slate-800/80 p-6 sm:grid-cols-2 lg:grid-cols-3 sm:p-8">
-              {BULLETINS.map((bulletin) => (
+              {(dynamicBulletins || BULLETINS).map((bulletin) => (
                 <article key={bulletin.id} className="relative overflow-hidden rounded-xl border border-slate-800/80 bg-slate-900/40 p-5">
                   <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent" />
                   <div className="flex items-start justify-between gap-3">
@@ -892,7 +980,7 @@ export default function Weather() {
           <p className="text-xs uppercase tracking-[0.25em] text-slate-500">අනුකරණය කරන ලද නිල සාරාංශය</p>
         </div>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {PROVINCE_SUMMARY.map((province) => (
+          {(dynamicSummaries || PROVINCE_SUMMARIES).map((province) => (
             <article key={province.province} className="cyber-card relative overflow-hidden p-5">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent" />
               <div className="flex items-start justify-between">
