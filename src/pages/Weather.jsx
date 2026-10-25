@@ -881,11 +881,11 @@ export default function Weather() {
             </div>
 
             <div className="grid items-center gap-8 lg:grid-cols-2">
-              <div className="flex items-end gap-4">
-                <span className="font-display text-[8rem] font-semibold leading-none tracking-[-0.08em] text-white sm:text-[10rem] lg:text-[14rem]">
+              <div className="flex items-end gap-4 overflow-x-auto overflow-y-visible pb-2">
+                <span className="font-display text-[7rem] font-semibold leading-none tracking-[-0.08em] text-white sm:text-[9rem] lg:text-[12rem] xl:text-[14rem]">
                   {loading ? '--' : data?.temp ?? '--'}
                 </span>
-                <span className="mb-6 text-5xl text-slate-500 sm:text-6xl lg:mb-10 lg:text-8xl">°C</span>
+                <span className="mb-4 text-4xl text-slate-500 sm:mb-6 sm:text-5xl lg:mb-8 lg:text-7xl xl:mb-10 xl:text-8xl">°C</span>
               </div>
               <div className="flex items-center gap-6">
                 <div className="relative grid h-24 w-24 place-items-center rounded-full bg-cyan-400/10 sm:h-32 sm:w-32">
