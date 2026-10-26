@@ -335,6 +335,39 @@ const WEATHER_MAP = [
   { codes: [96, 99], title: 'අකුණු සහිත දැඩි වැසි', icon: '⛈️' },
 ]
 
+/**
+ * WMO weather code -> Sinhala description + icon.
+ * Any code that is not in the table (including `undefined`) falls back to a
+ * neutral reading so the widget always has something to render.
+ */
+function getWeatherInfo(code) {
+  const match = WEATHER_MAP.find((entry) => entry.codes.includes(code))
+  return match ?? { title: 'කාලගුණ තත්ත්වය නොදනී', icon: '🌡️' }
+}
+
+/**
+ * Open-Meteo occasionally drops the very first request issued during page
+ * load, so retry a short backoff before giving up. `res.ok` is checked too:
+ * an HTTP error body would otherwise be parsed as JSON and silently produce an
+ * empty screen.
+ */
+async function fetchJsonWithRetry(url, attempts = 3) {
+  let lastError
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    try {
+      const res = await fetch(url, { cache: 'no-store' })
+      if (!res.ok) throw new Error(`Open-Meteo request failed with ${res.status}`)
+      return await res.json()
+    } catch (err) {
+      lastError = err
+      if (attempt < attempts - 1) {
+        await new Promise((resolve) => setTimeout(resolve, 800 * (attempt + 1)))
+      }
+    }
+  }
+  throw lastError
+}
+
 const BULLETINS = [
   {
     id: 1,
@@ -498,6 +531,7 @@ export default function Weather() {
   const [remote, setRemote] = useState([])
   const [searching, setSearching] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
   const [data, setData] = useState(null)
   const [dynamicBulletins, setDynamicBulletins] = useState(null)
   const [dynamicSummaries, setDynamicSummaries] = useState(null)
@@ -618,6 +652,7 @@ export default function Weather() {
   const fetchWeather = async () => {
     try {
       setLoading(true)
+      setError('')
       const url = new URL('https://api.open-meteo.com/v1/forecast')
       url.searchParams.set('latitude', city.lat.toString())
       url.searchParams.set('longitude', city.lon.toString())
@@ -627,10 +662,12 @@ export default function Weather() {
       url.searchParams.set('timezone', 'Asia/Colombo')
       url.searchParams.set('forecast_days', '3')
 
-      const res = await fetch(url.toString())
-      const json = await res.json()
+      const json = await fetchJsonWithRetry(url.toString())
 
       const current = json.current
+      if (!current || typeof current.temperature_2m !== 'number') {
+        throw new Error('Open-Meteo response is missing current weather data')
+      }
       const hourly = json.hourly
       const daily = json.daily
 
@@ -709,6 +746,7 @@ export default function Weather() {
       }
     } catch (err) {
       console.error(err)
+      setError('සජීවී දත්ත ලබා ගැනීමට නොහැකි විය. නැවත උත්සාහ කරන්න.')
     } finally {
       setLoading(false)
       setCountdown(60)
@@ -890,16 +928,29 @@ export default function Weather() {
               <div className="flex items-center gap-6">
                 <div className="relative grid h-24 w-24 place-items-center rounded-full bg-cyan-400/10 sm:h-32 sm:w-32">
                   <div className="absolute inset-4 rounded-full border border-cyan-400/40" />
-                  <span className="text-5xl sm:text-6xl">{loading ? '⏳' : data?.info.icon}</span>
+                  <span className="text-5xl sm:text-6xl">{loading ? '⏳' : data?.info?.icon ?? '🌡️'}</span>
                 </div>
                 <div className="space-y-2">
                   <p className="font-display text-2xl font-semibold text-white sm:text-3xl lg:text-4xl">
-                    {loading ? 'දත්ත ලබාගනිමින්...' : data?.info.title}
+                    {loading ? 'දත්ත ලබාගනිමින්...' : data?.info?.title ?? 'දත්ත නොමැත'}
                   </p>
                   <p className="text-slate-400">සජීවී කාලගුණ දත්ත | Open-Meteo</p>
                 </div>
               </div>
             </div>
+
+            {error && !loading && (
+              <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-400/50 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
+                <span>{error}</span>
+                <button
+                  type="button"
+                  onClick={fetchWeather}
+                  className="rounded-full border border-amber-300/60 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-amber-200 transition-colors hover:bg-amber-400/20"
+                >
+                  නැවත උත්සාහ කරන්න
+                </button>
+              </div>
+            )}
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {[
