@@ -398,10 +398,14 @@ const BULLETINS = [
   },
 ]
 
+// Each entry carries the representative coordinates used to pull that
+// province's real daily forecast from Open-Meteo, so every card shows its
+// own condition instead of reusing the selected city's weather.
 const PROVINCE_SUMMARIES = [
   {
     key: 'western',
-    zone: 'wet',
+    lat: 6.9271,
+    lon: 79.8612,
     province: 'බස්නාහිර පළාත (Western)',
     areas: 'කොළඹ, ගම්පහ, කළුතර',
     icon: '🌧️',
@@ -410,7 +414,8 @@ const PROVINCE_SUMMARIES = [
   },
   {
     key: 'central',
-    zone: 'hill',
+    lat: 7.2906,
+    lon: 80.6337,
     province: 'මධ්‍යම පළාත (Central)',
     areas: 'මහනුවර, නුවරඑළිය, මාතලේ',
     icon: '⛈️',
@@ -419,7 +424,8 @@ const PROVINCE_SUMMARIES = [
   },
   {
     key: 'southern',
-    zone: 'wet',
+    lat: 6.0535,
+    lon: 80.221,
     province: 'දකුණු පළාත (Southern)',
     areas: 'ගාල්ල, මාතර, හම්බන්තොට',
     icon: '🌧️',
@@ -428,7 +434,8 @@ const PROVINCE_SUMMARIES = [
   },
   {
     key: 'sabaragamuwa',
-    zone: 'wet',
+    lat: 6.6828,
+    lon: 80.3992,
     province: 'සබරගමුව පළාත (Sabaragamuwa)',
     areas: 'රත්නපුර, කෑගල්ල',
     icon: '⛈️',
@@ -437,7 +444,8 @@ const PROVINCE_SUMMARIES = [
   },
   {
     key: 'north-western',
-    zone: 'north-western',
+    lat: 7.4863,
+    lon: 80.3623,
     province: 'වයඹ පළාත (North Western)',
     areas: 'කුරුණෑගල, පුත්තලම, ගම්පහ',
     icon: '⛅',
@@ -446,7 +454,8 @@ const PROVINCE_SUMMARIES = [
   },
   {
     key: 'eastern',
-    zone: 'dry',
+    lat: 7.7102,
+    lon: 81.6924,
     province: 'නැගෙනහිර පළාත (Eastern)',
     areas: 'ත්‍රිකුණාමලය, මඩකලපුව, අම්පාර',
     icon: '🌤️',
@@ -455,7 +464,8 @@ const PROVINCE_SUMMARIES = [
   },
   {
     key: 'northern',
-    zone: 'dry',
+    lat: 9.6615,
+    lon: 80.0255,
     province: 'උතුරු පළාත (Northern)',
     areas: 'යාපනය, මන්නාරම, වවුනියාව',
     icon: '🌤️',
@@ -464,7 +474,8 @@ const PROVINCE_SUMMARIES = [
   },
   {
     key: 'ncp-uva',
-    zone: 'hill',
+    lat: 8.3114,
+    lon: 80.4037,
     province: 'උතුරු මධ්‍යම හා උව පළාත (NCP & Uva)',
     areas: 'අනුරාධපුර, පොළොන්නරුව, බදුල්ල, මොනරාගල',
     icon: '🌧️',
@@ -473,11 +484,22 @@ const PROVINCE_SUMMARIES = [
   },
 ]
 
-const PROVINCE_CONDITION_ICONS = {
+const PROVINCE_LEVEL_ICONS = {
   thunder: '⛈️',
+  heavy: '🌧️',
   rainy: '🌧️',
+  showers: '🌦️',
   cloudy: '☁️',
   clear: '☀️',
+}
+
+const PROVINCE_LEVEL_TEXT = {
+  thunder: 'තදබල වැසි සහ අකුණු සහිත කුණාටු',
+  heavy: 'තදබල වැසි',
+  rainy: 'තරමක් සිට මධ්‍යම තරමේ වැසි',
+  showers: 'තැනින් තැන ස්වල්ප වැසි',
+  cloudy: 'බොහෝ දුරට අර්ධ වළාකුළු සහිත කාලගුණයක්',
+  clear: 'බොහෝ දුරට පැහැදිලි හෝ අර්ධ වළාකුළු සහිත කාලගුණයක්',
 }
 
 function generateBulletinsDynamic(data, cityName) {
@@ -522,46 +544,38 @@ function generateBulletinsDynamic(data, cityName) {
   ]
 }
 
-function generateProvinceSummariesDynamic(data) {
-  if (!data) return PROVINCE_SUMMARIES
+// Derive one condition level from a province's own daily forecast so the icon
+// and the wording can never disagree.
+function levelFromDaily(code, prob, sum) {
+  if ([95, 96, 99].includes(code)) return 'thunder'
+  if ([63, 65, 82].includes(code) || sum >= 15 || prob >= 80) return 'heavy'
+  if ([51, 53, 55, 61, 80, 81].includes(code) || sum >= 2 || prob >= 50) return 'rainy'
+  if ([45, 48, 3].includes(code) || prob >= 30) return 'cloudy'
+  return 'clear'
+}
 
-  const isRainy = data.precipProb >= 40 || [51, 53, 55, 61, 63, 65, 80, 81, 82, 95, 96, 99].includes(data.code)
-  const isThunder = [95, 96, 99].includes(data.code)
-  const isHeavy = [65, 82, 95, 96, 99].includes(data.code) || data.precipProb >= 70
+function generateProvinceSummariesFromDaily(list) {
+  if (!Array.isArray(list) || list.length !== PROVINCE_SUMMARIES.length) return PROVINCE_SUMMARIES
 
-  // එක් එක් කලාපයට එකම "තත්ත්ව මට්ටමක්" ගණනය කර, අයිකනය සහ විස්තරය
-  // එකම මට්ටමෙන් ලබා දෙන නිසා ඒවා කිසිදා එකිනෙකට පරස්පර නොවේ.
-  const levelByZone = {
-    wet: isThunder ? 'thunder' : isHeavy ? 'heavy' : isRainy ? 'rainy' : 'cloudy',
-    hill: isThunder ? 'thunder' : isHeavy ? 'heavy' : isRainy ? 'rainy' : 'cloudy',
-    'north-western': isThunder ? 'thunder' : isRainy ? 'rainy' : 'cloudy',
-    dry: isRainy ? 'showers' : 'clear',
-  }
+  return PROVINCE_SUMMARIES.map((p, index) => {
+    const daily = list[index]?.daily
+    const code = daily?.weather_code?.[0]
+    if (typeof code !== 'number') return p
 
-  const textByLevel = {
-    thunder: 'තදබල වැසි සහ අකුණු සහිත කුණාටු',
-    heavy: 'තදබල වැසි',
-    rainy: 'තරමක් සිට මධ්‍යම තරමේ වැසි',
-    showers: 'තැනින් තැන ස්වල්ප වැසි',
-    cloudy: 'බොහෝ දුරට අර්ධ වළාකුළු සහිත කාලගුණයක්',
-    clear: 'බොහෝ දුරට පැහැදිලි හෝ අර්ධ වළාකුළු සහිත කාලගුණයක්',
-  }
+    const prob = Math.round(daily.precipitation_probability_max?.[0] ?? 0)
+    const sum = Number(daily.precipitation_sum?.[0] ?? 0)
+    const tMax = daily.temperature_2m_max?.[0]
+    const tMin = daily.temperature_2m_min?.[0]
+    const level = levelFromDaily(code, prob, sum)
 
-  const iconByLevel = {
-    thunder: '⛈️',
-    heavy: '🌧️',
-    rainy: '🌧️',
-    showers: '🌦️',
-    cloudy: '☁️',
-    clear: '☀️',
-  }
-
-  return PROVINCE_SUMMARIES.map((p) => {
-    const level = levelByZone[p.zone] || 'cloudy'
     return {
       ...p,
-      icon: iconByLevel[level] || PROVINCE_CONDITION_ICONS.cloudy,
-      forecast: `${p.areas} ප්‍රදේශවල ${textByLevel[level] || textByLevel.cloudy} අපේක්ෂා කෙරේ.`,
+      icon: PROVINCE_LEVEL_ICONS[level],
+      forecast: `${p.areas} ප්‍රදේශවල ${PROVINCE_LEVEL_TEXT[level]} අපේක්ෂා කෙරේ.`,
+      tempRange:
+        typeof tMax === 'number' && typeof tMin === 'number'
+          ? `${Math.round(tMin)} °C - ${Math.round(tMax)} °C`
+          : p.tempRange,
     }
   })
 }
@@ -578,6 +592,7 @@ export default function Weather() {
   const [data, setData] = useState(null)
   const [dynamicBulletins, setDynamicBulletins] = useState(null)
   const [dynamicSummaries, setDynamicSummaries] = useState(null)
+  const [summariesAt, setSummariesAt] = useState('')
   const [countdown, setCountdown] = useState(60)
   const [lastUpdate, setLastUpdate] = useState('--:--:--')
   const [showAlert, setShowAlert] = useState(false)
@@ -692,6 +707,30 @@ export default function Weather() {
     }
   }
 
+  // Province cards use their own daily forecast, so they stay correct
+  // regardless of which city is selected in the search box.
+  const fetchProvinceSummaries = async () => {
+    try {
+      const url = new URL('https://api.open-meteo.com/v1/forecast')
+      url.searchParams.set('latitude', PROVINCE_SUMMARIES.map((p) => p.lat).join(','))
+      url.searchParams.set('longitude', PROVINCE_SUMMARIES.map((p) => p.lon).join(','))
+      url.searchParams.set(
+        'daily',
+        'weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max'
+      )
+      url.searchParams.set('timezone', 'Asia/Colombo')
+      url.searchParams.set('forecast_days', '1')
+
+      const json = await fetchJsonWithRetry(url.toString())
+      setDynamicSummaries(generateProvinceSummariesFromDaily(json))
+      setSummariesAt(
+        new Date().toLocaleTimeString('si-LK', { hour: '2-digit', minute: '2-digit', hour12: false })
+      )
+    } catch (err) {
+      console.warn('province forecast failed', err)
+    }
+  }
+
   const fetchWeather = async () => {
     try {
       setLoading(true)
@@ -737,10 +776,6 @@ export default function Weather() {
         code: current.weather_code,
         precipProb: Math.round(nextProb),
       }, cityName))
-      setDynamicSummaries(generateProvinceSummariesDynamic({
-        code: current.weather_code,
-        precipProb: Math.round(nextProb),
-      }))
 
       const now = new Date()
       setLastUpdate(now.toLocaleTimeString('si-LK', { hour: '2-digit', minute: '2-digit', second: '2-digit' }))
@@ -820,6 +855,15 @@ export default function Weather() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city])
+
+  // Daily province forecast changes slowly, so refresh it every 10 minutes
+  // instead of on every 60 second city tick.
+  useEffect(() => {
+    fetchProvinceSummaries()
+    const id = setInterval(fetchProvinceSummaries, 600000)
+    return () => clearInterval(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const progress = (countdown / 60) * 100
   const bulletinTime = new Date().toLocaleTimeString('si-LK', { hour: '2-digit', minute: '2-digit' })
@@ -1071,7 +1115,9 @@ export default function Weather() {
             <h2 className="section-title mt-4">දිනපතා කාලගුණ සාරාංශය</h2>
             <p className="mt-3 text-sm text-slate-400">ශ්‍රී ලංකාවේ ප්‍රධාන පළාත් අට අනුව අපේක්ෂිත කාලගුණ රටාව</p>
           </div>
-          <p className="text-xs uppercase tracking-[0.25em] text-slate-500">අනුකරණය කරන ලද නිල සාරාංශය</p>
+          <p className="text-xs uppercase tracking-[0.25em] text-slate-500">
+            අද දින දෛනික අනාවැකිය · Open-Meteo{summariesAt ? ` · ${summariesAt}` : ''}
+          </p>
         </div>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {(dynamicSummaries || PROVINCE_SUMMARIES).map((province) => (
