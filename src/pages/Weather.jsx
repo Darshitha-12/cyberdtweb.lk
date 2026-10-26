@@ -400,54 +400,85 @@ const BULLETINS = [
 
 const PROVINCE_SUMMARIES = [
   {
+    key: 'western',
+    zone: 'wet',
     province: 'බස්නාහිර පළාත (Western)',
+    areas: 'කොළඹ, ගම්පහ, කළුතර',
     icon: '🌧️',
-    forecast: 'සමහර ප්‍රදේශවල තදබල වැසි. කොළඹ, ගම්පහ, කළුතර යනාදී ප්‍රදේශවල සවස් වරුවේ වැසි තීව්‍ර විය හැකිය.',
+    forecast: 'කොළඹ, ගම්පහ, කළුතර ප්‍රදේශවල සවස් වරුවේ තදබල වැසි සහ අකුණු අපේක්ෂා කෙරේ.',
     tempRange: '25 °C - 31 °C',
   },
   {
+    key: 'central',
+    zone: 'hill',
     province: 'මධ්‍යම පළාත (Central)',
-    icon: '🌦️',
-    forecast: 'කඳුකර ප්‍රදේශවල දහවල් වරුවේ තදබල වැසි සහ අකුණු. නුවරඑළිය වැනි උස් ප්‍රදේශවල උෂ්ණත්වය 16 °C පමණ දක්වා පහත වැටිය හැකිය.',
+    areas: 'මහනුවර, නුවරඑළිය, මාතලේ',
+    icon: '⛈️',
+    forecast: 'මහනුවර, නුවරඑළිය, මාතලේ ප්‍රදේශවල දහවල් වරුවේ තදබල වැසි සහ අකුණු අපේක්ෂා කෙරේ.',
     tempRange: '16 °C - 26 °C',
   },
   {
+    key: 'southern',
+    zone: 'wet',
     province: 'දකුණු පළාත (Southern)',
-    icon: '🌊',
-    forecast: 'ගාල්ල, මාතර, හම්බන්තොට ප්‍රදේශවලට තරමක් සිට දැඩි තරමේ වැසි. මුහුදු ගමන්වලදී රළ ඉහළ යා හැකි බැවින් ප්‍රබල සුළං ගැන අවධානයෙන් සිටින්න.',
+    areas: 'ගාල්ල, මාතර, හම්බන්තොට',
+    icon: '🌧️',
+    forecast: 'ගාල්ල, මාතර, හම්බන්තොට ප්‍රදේශවල තරමක් සිට දැඩි තරමේ වැසි අපේක්ෂා කෙරේ.',
     tempRange: '25 °C - 30 °C',
   },
   {
+    key: 'sabaragamuwa',
+    zone: 'wet',
     province: 'සබරගමුව පළාත (Sabaragamuwa)',
+    areas: 'රත්නපුර, කෑගල්ල',
     icon: '⛈️',
-    forecast: 'රත්නපුර, කෑගල්ල දිස්ත්‍රික්කවල තදබල වැසි සහ අකුණු සහිත කුණාටු. නායයෑම් ඇති ප්‍රදේශවල වැඩි අවධානයක් දැක්විය යුතුය.',
+    forecast: 'රත්නපුර, කෑගල්ල ප්‍රදේශවල තදබල වැසි සහ අකුණු සහිත කුණාටු අපේක්ෂා කෙරේ.',
     tempRange: '22 °C - 29 °C',
   },
   {
+    key: 'north-western',
+    zone: 'north-western',
     province: 'වයඹ පළාත (North Western)',
+    areas: 'කුරුණෑගල, පුත්තලම, ගම්පහ',
     icon: '⛅',
-    forecast: 'ප්‍රධාන වශයෙන් අර්ධ වළාකුළු සහිත කාලගුණයක්. දිවා කාලයේදී තනි තනි තදබල වැසි ලැබීමට ඉඩ ඇත.',
+    forecast: 'කුරුණෑගල, පුත්තලම ප්‍රදේශවල අර්ධ වළාකුළු සහිත කාලගුණයක් අපේක්ෂා කෙරේ.',
     tempRange: '25 °C - 31 °C',
   },
   {
+    key: 'eastern',
+    zone: 'dry',
     province: 'නැගෙනහිර පළාත (Eastern)',
+    areas: 'ත්‍රිකුණාමලය, මඩකලපුව, අම්පාර',
     icon: '🌤️',
-    forecast: 'බොහෝ දුරට පැහැදිලි හෝ අර්ධ වළාකුළු සහිත කාලගුණයක්. සවස් යාමයේදී ත්‍රිකුණාමලය, මඩකලපුව ප්‍රදේශවල ස්වල්ප වැසි විය හැකිය.',
+    forecast: 'ත්‍රිකුණාමලය, මඩකලපුව, අම්පාර ප්‍රදේශවල බොහෝ දුරට පැහැදිලි හෝ අර්ධ වළාකුළු සහිත කාලගුණයක් අපේක්ෂා කෙරේ.',
     tempRange: '26 °C - 32 °C',
   },
   {
+    key: 'northern',
+    zone: 'dry',
     province: 'උතුරු පළාත (Northern)',
+    areas: 'යාපනය, මන්නාරම, වවුනියාව',
     icon: '🌤️',
-    forecast: 'සාමාන්‍යයෙන් වියළි හෝ අර්ධ වළාකුළු සහිත කාලගුණයක්. දහවල් කාලයේදී දැනෙන උෂ්ණත්වය මඳක් ඉහළ යා හැකිය.',
+    forecast: 'යාපනය, මන්නාරම, වවුනියාව ප්‍රදේශවල සාමාන්‍යයෙන් වියළි හෝ අර්ධ වළාකුළු සහිත කාලගුණයක් අපේක්ෂා කෙරේ.',
     tempRange: '27 °C - 33 °C',
   },
   {
+    key: 'ncp-uva',
+    zone: 'hill',
     province: 'උතුරු මධ්‍යම හා උව පළාත (NCP & Uva)',
-    icon: '🌦️',
-    forecast: 'අනුරාධපුර, පොළොන්නරුව, බදුල්ල, මොනරාගල ප්‍රදේශවල සවස් කාලයේ තදබල වැසි සහ අකුණු සහිත කුණාටු සිදුවිය හැකිය.',
+    areas: 'අනුරාධපුර, පොළොන්නරුව, බදුල්ල, මොනරාගල',
+    icon: '🌧️',
+    forecast: 'අනුරාධපුර, පොළොන්නරුව, බදුල්ල, මොනරාගල ප්‍රදේශවල සවස් කාලයේ තරමක් වැසි අපේක්ෂා කෙරේ.',
     tempRange: '20 °C - 30 °C',
   },
 ]
+
+const PROVINCE_CONDITION_ICONS = {
+  thunder: '⛈️',
+  rainy: '🌧️',
+  cloudy: '☁️',
+  clear: '☀️',
+}
 
 function generateBulletinsDynamic(data, cityName) {
   if (!data) return BULLETINS
@@ -498,28 +529,40 @@ function generateProvinceSummariesDynamic(data) {
   const isThunder = [95, 96, 99].includes(data.code)
   const isHeavy = [65, 82, 95, 96, 99].includes(data.code) || data.precipProb >= 70
 
-  const base = isHeavy
-    ? 'තදබල වැසි සහ අකුණු අපේක්ෂා කෙරේ.'
-    : isThunder
-    ? 'අකුණු සහිත කුණාටු අපේක්ෂා කෙරේ.'
-    : isRainy
-    ? 'තරමක් වැසි සහ වළාකුළු සහිත කාලගුණයක් අපේක්ෂා කෙරේ.'
-    : 'ප්‍රධාන වශයෙන් වළාකුළු සහිත හෝ පැහැදිලි අහසක් සහිත කාලගුණයක් අපේක්ෂා කෙරේ.'
+  // එක් එක් කලාපයට එකම "තත්ත්ව මට්ටමක්" ගණනය කර, අයිකනය සහ විස්තරය
+  // එකම මට්ටමෙන් ලබා දෙන නිසා ඒවා කිසිදා එකිනෙකට පරස්පර නොවේ.
+  const levelByZone = {
+    wet: isThunder ? 'thunder' : isHeavy ? 'heavy' : isRainy ? 'rainy' : 'cloudy',
+    hill: isThunder ? 'thunder' : isHeavy ? 'heavy' : isRainy ? 'rainy' : 'cloudy',
+    'north-western': isThunder ? 'thunder' : isRainy ? 'rainy' : 'cloudy',
+    dry: isRainy ? 'showers' : 'clear',
+  }
+
+  const textByLevel = {
+    thunder: 'තදබල වැසි සහ අකුණු සහිත කුණාටු',
+    heavy: 'තදබල වැසි',
+    rainy: 'තරමක් සිට මධ්‍යම තරමේ වැසි',
+    showers: 'තැනින් තැන ස්වල්ප වැසි',
+    cloudy: 'බොහෝ දුරට අර්ධ වළාකුළු සහිත කාලගුණයක්',
+    clear: 'බොහෝ දුරට පැහැදිලි හෝ අර්ධ වළාකුළු සහිත කාලගුණයක්',
+  }
+
+  const iconByLevel = {
+    thunder: '⛈️',
+    heavy: '🌧️',
+    rainy: '🌧️',
+    showers: '🌦️',
+    cloudy: '☁️',
+    clear: '☀️',
+  }
 
   return PROVINCE_SUMMARIES.map((p) => {
-    if (['බස්නාහිර පළාත', 'දකුණු පළාත', 'සබරගමුව පළාත'].includes(p.province)) {
-      return { ...p, forecast: isRainy || isHeavy ? `සමහර ප්‍රදේශවලට තරමක් සිට දැඩි තරමේ වැසි. ${base}` : 'බොහෝ දුරට වළාකුළු සහිත හෝ පැහැදිලි කාලගුණයක් අපේක්ෂා කෙරේ.' }
+    const level = levelByZone[p.zone] || 'cloudy'
+    return {
+      ...p,
+      icon: iconByLevel[level] || PROVINCE_CONDITION_ICONS.cloudy,
+      forecast: `${p.areas} ප්‍රදේශවල ${textByLevel[level] || textByLevel.cloudy} අපේක්ෂා කෙරේ.`,
     }
-    if (['උතුරු පළාත', 'උතුරු මධ්‍යම පළාත', 'නැගෙනහිර පළාත'].includes(p.province)) {
-      return { ...p, forecast: isRainy ? `සමහර ප්‍රදේශවලට ස්වල්ප වැසි. ${base}` : 'බොහෝ දුරට පැහැදිලි හෝ අර්ධ වළාකුළු සහිත කාලගුණයක් අපේක්ෂා කෙරේ.' }
-    }
-    if (['මධ්‍යම පළාත', 'උව පළාත'].includes(p.province)) {
-      return { ...p, forecast: isRainy || isHeavy ? `කඳුකර ප්‍රදේශවලට තරමක් සිට දැඩි තරමේ වැසි සහ අකුණු. ${base}` : 'බොහෝ දුරට වළාකුළු සහිත හෝ පැහැදිලි කාලගුණයක් අපේක්ෂා කෙරේ.' }
-    }
-    if (p.province === 'වයඹ පළාත') {
-      return { ...p, forecast: isRainy ? `සමහර ප්‍රදේශවලට තරමක් වැසි. ${base}` : 'බොහෝ දුරට පැහැදිලි හෝ අර්ධ වළාකුළු සහිත කාලගුණයක් අපේක්ෂා කෙරේ.' }
-    }
-    return { ...p, forecast: base }
   })
 }
 
