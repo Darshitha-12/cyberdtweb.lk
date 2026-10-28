@@ -368,35 +368,9 @@ async function fetchJsonWithRetry(url, attempts = 3) {
   throw lastError
 }
 
-const BULLETINS = [
-  {
-    id: 1,
-    type: 'morning',
-    issuedBy: 'ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුව',
-    time: 'පාන්දර 06:00',
-    title: 'උදෑසන කාලගුණ විස්තරය',
-    content:
-      'අද දිනයේ බස්නාහිර, දකුණු සහ සබරගමුව පළාත්වල සමහර ප්‍රදේශවල තදබල වැසි ලැබිය හැකිය. අනෙක් ප්‍රදේශවල ප්‍රධාන වශයෙන් වළාකුළු සහිත කාලගුණයක් පවතිනු ඇත. සවස් කාලය වන විට වැසි තීව්‍රතාවය වැඩි විය හැකිය.',
-  },
-  {
-    id: 2,
-    type: 'general',
-    issuedBy: 'ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුව',
-    time: 'පාන්දර 09:30',
-    title: 'අන්තර්-මෝසම් තත්ත්වය පිළිබඳ යාවත්කාලීනය',
-    content:
-      'අද සහ හෙට දිනවල දී දකුණ, නිරිත හා බස්නාහිර දිශාවලින් තරමක් තෙත් වායු ස්‍රෝතයක් බලපෑමට ලක්වීම හේතුවෙන් බස්නාහිර, දකුණු, සබරගමුව හා මධ්‍යම කඳුකරයේ සමහර ප්‍රදේශවලට තරමක් සිට දැඩි තරමේ වැසි සහ ප්‍රබල සුළං අපේක්ෂා කෙරේ.',
-  },
-  {
-    id: 3,
-    type: 'evening',
-    issuedBy: 'ක්‍රියාකාරී කාලගුණ කාර්යාලය',
-    time: 'සවස 03:00',
-    title: 'සන්ධ්‍යා කාලගුණ යාවත්කාලීනය',
-    content:
-      'ගිනිගත්හේන, හපුතලේ, නුවරඑළිය වැනි කඳුකර ප්‍රදේශවල පමණක් නොව පහතරට ප්‍රදේශවලද තදබල වැසි සහ අකුණු සහිත කුණාටු සිදුවීමට ඉඩ ඇත. මාර්ග භාවිතා කරන රියදුරන් වඩාත් පරෙස්සමින් කටයුතු කරන ලෙස දැනුම් දෙනු ලැබේ.',
-  },
-]
+// Official bulletins are fetched live from the Department of Meteorology
+// (through /api/official-weather). Nothing on this page invents official text.
+const OFFICIAL_ENDPOINT = '/api/official-weather'
 
 // Each entry carries the representative coordinates used to pull that
 // province's real daily forecast from Open-Meteo, so every card shows its
@@ -502,48 +476,6 @@ const PROVINCE_LEVEL_TEXT = {
   clear: 'බොහෝ දුරට පැහැදිලි හෝ අර්ධ වළාකුළු සහිත කාලගුණයක්',
 }
 
-function generateBulletinsDynamic(data, cityName) {
-  if (!data) return BULLETINS
-
-  const now = new Date()
-  const timeStr = now.toLocaleTimeString('si-LK', { hour: '2-digit', minute: '2-digit' })
-  const isRainy = data.precipProb >= 40 || [51, 53, 55, 61, 63, 65, 80, 81, 82, 95, 96, 99].includes(data.code)
-  const isThunder = [95, 96, 99].includes(data.code)
-  const isWindy = data.wind >= 30
-  const isHeavy = [65, 82, 95, 96, 99].includes(data.code) || data.precipProb >= 70
-
-  const location = cityName || 'ශ්‍රී ලංකාව'
-
-  return [
-    {
-      id: Date.now(),
-      type: 'morning',
-      issuedBy: 'ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුව',
-      time: timeStr,
-      title: 'දිනපතා කාලගුණ තොරතුරු',
-      content: isHeavy
-        ? `${location} ප්‍රදේශය සඳහා තදබල වැසි සහ අකුණු අපේක්ෂා කෙරේ. වර්ෂා සම්භාවිතාව ${data.precipProb}%ක් වන අතර සුළඟ වේගය ${data.wind} km/h දක්වා විය හැකිය. අවධානයෙන් සිටින්න.`
-        : isThunder
-        ? `${location} ප්‍රදේශය සඳහා අකුණු සහිත කුණාටු තත්ත්වයක් අපේක්ෂා කෙරේ. පිටත ගමන් කිරීමේදී පරිස්සම් වන්න.`
-        : isRainy
-        ? `${location} ප්‍රදේශය සඳහා තරමක් වැසි සහ වළාකුළු සහිත කාලගුණයක් අපේක්ෂා කෙරේ. වර්ෂා සම්භාවිතාව ${data.precipProb}%ක් වන අතර උෂ්ණත්වය ${data.temp}°C පමණ කිව හැකිය.`
-        : `${location} ප්‍රදේශය සඳහා ප්‍රධාන වශයෙන් වළාකුළු සහිත හෝ පැහැදිලි අහසක් සහිත කාලගුණයක් අපේක්ෂා කෙරේ. උෂ්ණත්වය ${data.temp}°C පමණ වන අතර ආර්ද්‍රතාවය ${data.humidity}%ක් පමණ වේ.`,
-    },
-    {
-      id: Date.now() + 1,
-      type: 'general',
-      issuedBy: 'ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුව',
-      time: timeStr,
-      title: 'යාවත්කාලීන නිවේදනය',
-      content: isWindy
-        ? `සමහර ප්‍රදේශවල ප්‍රබල සුළං (${data.wind} km/h) ඇතිවිය හැකිය. වියළි ගස් අතු සහ පිටත තැබූ වස්තු සුරක්ෂිතව තබා ගැනීමට අවධානය යොමු කරන්න.`
-        : isHeavy
-        ? 'තදබල වැසි හේතුවෙන් ගංවතුර හා ජල ගැලීම් ඇතිවිය හැකිය. පහත් ප්‍රදේශවල වාසය කරන්නන් සැලකිලිමත් විය යුතුය.'
-        : 'කාලගුණ තත්ත්වය නිරීක්ෂණය වෙමින් පවතින අතර අවශ්‍ය වන විට යාවත්කාලීන කරනු ලැබේ.',
-    },
-  ]
-}
-
 // Derive one condition level from a province's own daily forecast so the icon
 // and the wording can never disagree.
 function levelFromDaily(code, prob, sum) {
@@ -590,9 +522,11 @@ export default function Weather() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [data, setData] = useState(null)
-  const [dynamicBulletins, setDynamicBulletins] = useState(null)
   const [dynamicSummaries, setDynamicSummaries] = useState(null)
   const [summariesAt, setSummariesAt] = useState('')
+  const [official, setOfficial] = useState(null)
+  const [officialError, setOfficialError] = useState('')
+  const [officialAt, setOfficialAt] = useState('')
   const [countdown, setCountdown] = useState(60)
   const [lastUpdate, setLastUpdate] = useState('--:--:--')
   const [showAlert, setShowAlert] = useState(false)
@@ -707,6 +641,24 @@ export default function Weather() {
     }
   }
 
+  // Pulls the department's own bulletin text verbatim, so what visitors read
+  // here is exactly what meteo.gov.lk published (no locally invented wording).
+  const fetchOfficial = async () => {
+    try {
+      setOfficialError('')
+      const res = await fetch(OFFICIAL_ENDPOINT, { cache: 'no-store' })
+      const json = await res.json()
+      if (!res.ok || !json.ok) throw new Error(json.error || `HTTP ${res.status}`)
+      setOfficial(json)
+      setOfficialAt(
+        new Date().toLocaleTimeString('si-LK', { hour: '2-digit', minute: '2-digit', hour12: false })
+      )
+    } catch (err) {
+      console.warn('official bulletin failed', err)
+      setOfficialError('නිල කාලගුණ නිවේදනය ලබා ගත නොහැකි විය.')
+    }
+  }
+
   // Province cards use their own daily forecast, so they stay correct
   // regardless of which city is selected in the search box.
   const fetchProvinceSummaries = async () => {
@@ -768,15 +720,6 @@ export default function Weather() {
         daily,
       })
 
-      const cityName = city.label.split(' / ')[0]
-      setDynamicBulletins(generateBulletinsDynamic({
-        temp: Math.round(current.temperature_2m),
-        humidity: current.relative_humidity_2m,
-        wind: Math.round(current.wind_speed_10m),
-        code: current.weather_code,
-        precipProb: Math.round(nextProb),
-      }, cityName))
-
       const now = new Date()
       setLastUpdate(now.toLocaleTimeString('si-LK', { hour: '2-digit', minute: '2-digit', second: '2-digit' }))
 
@@ -788,13 +731,13 @@ export default function Weather() {
       if (isHeavyRain || isStrongWind || isThunder) {
         setWarningActive(true)
         if (isHeavyRain && isStrongWind && isThunder) {
-          setWarningMsg('කාලගුණ විද්‍යා දෙපාර්තමේන්තු අනතුරු ඇඟවීමයි – දැඩි වැසි, අකුණු සහිත කුණාටු හා ප්‍රබල සුළං අපේක්ෂා කෙරේ.')
+          setWarningMsg('දැඩි වැසි, අකුණු සහිත කුණාටු හා ප්‍රබල සුළං අපේක්ෂා කෙරේ. (Open-Meteo ආකෘති දත්ත)')
         } else if (isHeavyRain && isThunder) {
-          setWarningMsg('කාලගුණ විද්‍යා දෙපාර්තමේන්තු අනතුරු ඇඟවීමයි – අකුණු සහිත දැඩි වැසි තත්ත්වයක් අපේක්ෂා කෙරේ.')
+          setWarningMsg('අකුණු සහිත දැඩි වැසි තත්ත්වයක් අපේක්ෂා කෙරේ. (Open-Meteo ආකෘති දත්ත)')
         } else if (isStrongWind) {
-          setWarningMsg('කාලගුණ විද්‍යා දෙපාර්තමේන්තු අනතුරු ඇඟවීමයි – සමහර ප්‍රදේශවල ප්‍රබල සුළං ඇතිවිය හැකිය.')
+          setWarningMsg('මෙම ප්‍රදේශයේ ප්‍රබල සුළං ඇතිවිය හැකිය. (Open-Meteo ආකෘති දත්ත)')
         } else {
-          setWarningMsg('කාලගුණ විද්‍යා දෙපාර්තමේන්තු අනතුරු ඇඟවීමයි – තදබල වැසි හේතුවෙන් ගංවතුර හා ජල ගැලීම් ඇතිවිය හැකිය.')
+          setWarningMsg('තදබල වැසි හේතුවෙන් ගංවතුර හා ජල ගැලීම් ඇතිවිය හැකිය. (Open-Meteo ආකෘති දත්ත)')
         }
       } else {
         setWarningActive(false)
@@ -805,17 +748,17 @@ export default function Weather() {
         if (isHeavyRain && isStrongWind) {
           setAlertText({
             title: 'අවධානය අවශ්‍යයි – දැඩි වැසි සහ ප්‍රබල සුළං අපේක්ෂා කෙරේ',
-            body: 'කාලගුණ විද්‍යා දෙපාර්තමේන්තුවේ නිවේදන හා සමාන තත්ත්වයක් දැකිය හැකිය. ගංවතුර හා නායයෑම් ඇති ප්‍රදේශවල වාසය කරන්නන් ඉතා සැලකිලිමත් විය යුතුය. හැකිනම් ආරක්ෂිත ස්ථානයකට යොමු වන්න.',
+            body: 'Open-Meteo ආකෘති දත්ත අනුව මෙම ප්‍රදේශයට දැඩි වැසි සහ ප්‍රබල සුළං අපේක්ෂා කෙරේ. ගංවතුර හා නායයෑම් ඇති ප්‍රදේශවල වාසය කරන්නන් ඉතා සැලකිලිමත් විය යුතුය. නිල අනතුරු ඇඟවීම් සඳහා පහත නිල නිවේදන කොටස බලන්න.',
           })
         } else if (isHeavyRain) {
           setAlertText({
-            title: 'දැඩි වැසි නිවේදනයක් අපේක්ෂා කෙරේ',
-            body: 'කෙටි කාලයකදී දැඩි වර්ෂාවක් විය හැකි අතර, මාර්ගවල ජල ගැලීම් හා ගංවතුර ඇතිවිය හැකිය. වාහන පදවන විට හා ගමන් කරන විට වඩාත් පරෙස්සමින් කටයුතු කරන්න.',
+            title: 'දැඩි වැසි අපේක්ෂා කෙරේ',
+            body: 'Open-Meteo ආකෘති දත්ත අනුව කෙටි කාලයකදී දැඩි වර්ෂාවක් විය හැකි අතර, මාර්ගවල ජල ගැලීම් හා ගංවතුර ඇතිවිය හැකිය. වාහන පදවන විට හා ගමන් කරන විට වඩාත් පරෙස්සමින් කටයුතු කරන්න.',
           })
         } else {
           setAlertText({
-            title: 'ප්‍රබල සුළං නිවේදනයක් අපේක්ෂා කෙරේ',
-            body: 'වියළි ගස් අතු, සුරක්ෂිත නොකළ ව්‍යුහයන් හා පිටත තැබූ වස්තු සුළඟට ගෙනයෑමේ අවදානම වැඩියි. නිවාස ආසන්නයේ දොරවල්, ජනේල හා සැරසිලි ආරක්ෂිතව තබා ගැනීමට අවධානය යොමු කරන්න.',
+            title: 'ප්‍රබල සුළං අපේක්ෂා කෙරේ',
+            body: 'Open-Meteo ආකෘති දත්ත අනුව වියළි ගස් අතු, සුරක්ෂිත නොකළ ව්‍යුහයන් හා පිටත තැබූ වස්තු සුළඟට ගෙනයෑමේ අවදානම වැඩියි. දොරවල්, ජනේල හා සැරසිලි ආරක්ෂිතව තබා ගන්න.',
           })
         }
         setShowAlert(true)
@@ -865,8 +808,16 @@ export default function Weather() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // The department re-issues bulletins a few times a day; poll more often so
+  // the page follows their updates without a reload.
+  useEffect(() => {
+    fetchOfficial()
+    const id = setInterval(fetchOfficial, 300000)
+    return () => clearInterval(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const progress = (countdown / 60) * 100
-  const bulletinTime = new Date().toLocaleTimeString('si-LK', { hour: '2-digit', minute: '2-digit' })
 
   return (
     <div lang="si" className="font-sinhala pt-32 md:pt-40">
@@ -874,7 +825,7 @@ export default function Weather() {
         <p className="eyebrow">ශ්‍රී ලංකාව සඳහා සජීවී කාලගුණය</p>
         <h1 className="page-title mt-4">ශ්‍රී ලංකා සජීවී කාලගුණ වාර්තාව</h1>
         <p className="page-lede mt-5">
-          නිල කාලගුණ විද්‍යා දෙපාර්තමේන්තුවට සමානව නිර්මාණය කර ඇති දිනපතා කාලගුණ නිවේදන, අනතුරු ඇඟවීම් සහ ප්‍රදේශ අනුව සාරාංශයන් සහිත සජීවී කාලගුණ පද්ධතියක්.
+          නිල කාලගුණ විද්‍යා දෙපාර්තමේන්තුවේ ප්‍රකාශිත නිවේදන, සජීවී නගර දත්ත සහ පළාත් අනුව සාරාංශ එකට එකතු කළ සජීවී කාලගුණ පද්ධතියක්.
         </p>
       </section>
 
@@ -888,7 +839,7 @@ export default function Weather() {
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-300 opacity-75"></span>
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-300"></span>
                 </span>
-                කාලගුණ විද්‍යා දෙපාර්තමේන්තු අනතුරු ඇඟවීමයි
+                සජීවී තත්ත්ව අවධානය
               </span>
               <p className="text-amber-50/90">{warningMsg}</p>
             </div>
@@ -903,7 +854,7 @@ export default function Weather() {
             <div className="flex flex-col items-center gap-3">
               <div className="flex items-center gap-2 text-lg font-semibold text-white sm:text-xl">
                 <span>⚠️</span>
-                <span>අනතුරු ඇඟවීම් / කාලගුණ නිවේදන</span>
+                <span>සජීවී තත්ත්ව අවධානය</span>
               </div>
               <div className="max-w-3xl space-y-2 text-sm leading-relaxed text-red-100 sm:text-base">
                 <p className="font-semibold text-white">{alertText.title}</p>
@@ -1077,32 +1028,117 @@ export default function Weather() {
               </div>
               <div>
                 <p className="font-display text-lg font-semibold text-white sm:text-xl">නිල කාලගුණ නිවේදන (Official Bulletins)</p>
-                <p className="text-sm text-slate-400">ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුව / ක්‍රියාකාරී කාලගුණ කාර්යාලය</p>
+                <p className="text-sm text-slate-400">ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුව · meteo.gov.lk</p>
               </div>
             </div>
             <div className="flex items-center gap-3 text-sm text-slate-400">
-              <span>අවසන් යාවත්කාලීනය: {bulletinTime}</span>
+              <span>
+                {officialAt ? `ලබාගත් ${officialAt}` : officialError ? 'යාවත්කාලීන නොවේ' : 'ලබා ගනිමින්…'}
+              </span>
               <span className={`transition-transform duration-300 ${isBulletinOpen ? 'rotate-180' : ''}`}>▾</span>
             </div>
           </button>
           {isBulletinOpen && (
-            <div className="grid gap-4 border-t border-slate-800/80 p-6 sm:grid-cols-2 lg:grid-cols-3 sm:p-8">
-              {(dynamicBulletins || BULLETINS).map((bulletin) => (
-                <article key={bulletin.id} className="relative overflow-hidden rounded-xl border border-slate-800/80 bg-slate-900/40 p-5">
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent" />
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.25em] text-cyan-300/80">
-                        {bulletin.type === 'morning' ? 'උදෑසන නිවේදනය' : bulletin.type === 'evening' ? 'සන්ධ්‍යා නිවේදනය' : 'සාමාන්‍ය යාවත්කාලීනය'}
-                      </p>
-                      <h3 className="mt-2 font-display text-base font-semibold text-white">{bulletin.title}</h3>
+            <div className="border-t border-slate-800/80 p-6 sm:p-8">
+              {officialError && (
+                <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-400/50 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
+                  <span>{officialError} නිල වෙබ් අඩවියෙන් තහවුරු කරගන්න.</span>
+                  <span className="flex items-center gap-3">
+                    <a
+                      href="https://www.meteo.gov.lk/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline decoration-amber-300/60 underline-offset-4"
+                    >
+                      meteo.gov.lk
+                    </a>
+                    <button
+                      type="button"
+                      onClick={fetchOfficial}
+                      className="rounded-full border border-amber-300/60 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-amber-200 transition-colors hover:bg-amber-400/20"
+                    >
+                      නැවත උත්සාහ කරන්න
+                    </button>
+                  </span>
+                </div>
+              )}
+
+              {!official && !officialError && (
+                <p className="text-sm text-slate-400">නිල කාලගුණ නිවේදනය ලබා ගනිමින්…</p>
+              )}
+
+              {official && (
+                <div className="grid gap-4 lg:grid-cols-2">
+                  <article className="relative overflow-hidden rounded-xl border border-slate-800/80 bg-slate-900/40 p-5">
+                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent" />
+                    <p className="text-xs uppercase tracking-[0.25em] text-cyan-300/80">දිවයින සඳහා නිල අනාවැකිය</p>
+                    <h3 className="mt-2 font-display text-base font-semibold text-white">{official.land?.title}</h3>
+                    <p className="mt-1 text-xs text-slate-500">{official.land?.issued}</p>
+                    <div className="mt-4 space-y-3 text-sm leading-relaxed text-slate-300">
+                      {(official.land?.si || []).map((paragraph, index) => (
+                        <p key={index}>{paragraph}</p>
+                      ))}
                     </div>
-                    <span className="rounded-full border border-slate-700 px-3 py-1 text-xs text-slate-400">{bulletin.time}</span>
-                  </div>
-                  <p className="mt-3 text-sm leading-relaxed text-slate-300">{bulletin.content}</p>
-                  <p className="mt-4 text-xs text-slate-500">නිකුත් කළේ: {bulletin.issuedBy}</p>
-                </article>
-              ))}
+                    <p className="mt-4 text-xs text-slate-500">
+                      පෙළ වෙනස් නොකර, නිල මූලාශ්‍රයෙන්ම පෙන්වයි ·{' '}
+                      <a
+                        href={official.land?.sourceUrl || 'https://www.meteo.gov.lk/'}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline decoration-slate-600 underline-offset-4"
+                      >
+                        meteo.gov.lk
+                      </a>
+                    </p>
+                  </article>
+
+                  <article className="relative overflow-hidden rounded-xl border border-slate-800/80 bg-slate-900/40 p-5">
+                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sky-400/30 to-transparent" />
+                    <p className="text-xs uppercase tracking-[0.25em] text-sky-300/80">මුහුදු ප්‍රදේශ සඳහා නිල අනාවැකිය</p>
+                    <h3 className="mt-2 font-display text-base font-semibold text-white">{official.sea?.title}</h3>
+                    <p className="mt-1 text-xs text-slate-500">{official.sea?.issued}</p>
+                    <div className="mt-4 space-y-3 text-sm leading-relaxed text-slate-300">
+                      {(official.sea?.si || []).map((paragraph, index) => (
+                        <p key={index}>{paragraph}</p>
+                      ))}
+                    </div>
+                  </article>
+
+                  {(official.advisories?.length > 0 || official.reports?.length > 0) && (
+                    <article className="relative overflow-hidden rounded-xl border border-slate-800/80 bg-slate-900/40 p-5 lg:col-span-2">
+                      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-400/30 to-transparent" />
+                      <p className="text-xs uppercase tracking-[0.25em] text-amber-300/80">නිල අනතුරු ඇඟවීම් හා වාර්තා (PDF)</p>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {(official.advisories || []).map((item) => (
+                          <a
+                            key={item.key}
+                            href={item.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="rounded-full border border-amber-300/40 bg-amber-400/10 px-3 py-1.5 text-xs text-amber-100 transition-colors hover:bg-amber-400/20"
+                          >
+                            {item.label} ↗
+                          </a>
+                        ))}
+                        {(official.reports || []).map((item) => (
+                          <a
+                            key={item.key}
+                            href={item.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="rounded-full border border-slate-700 px-3 py-1.5 text-xs text-slate-300 transition-colors hover:bg-slate-800/60"
+                          >
+                            {item.label} ↗
+                          </a>
+                        ))}
+                      </div>
+                      <p className="mt-4 text-xs text-slate-500">
+                        නිල PDF ගොනු කාලගුණ විද්‍යා දෙපාර්තමේන්තුවේ සේවාදායකයෙන්ම විවෘත වේ.
+                      </p>
+                    </article>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -1114,6 +1150,9 @@ export default function Weather() {
             <p className="eyebrow">දිස්ත්‍රික්ක හා පළාත් අනුව සාරාංශය</p>
             <h2 className="section-title mt-4">දිනපතා කාලගුණ සාරාංශය</h2>
             <p className="mt-3 text-sm text-slate-400">ශ්‍රී ලංකාවේ ප්‍රධාන පළාත් අට අනුව අපේක්ෂිත කාලගුණ රටාව</p>
+            <p className="mt-2 text-xs text-slate-500">
+              මෙම පළාත් සාරාංශය Open-Meteo ආකෘති දත්ත මත පදනම් වේ. නිල අනාවැකිය සඳහා ඉහත නිල නිවේදන කොටස බලන්න.
+            </p>
           </div>
           <p className="text-xs uppercase tracking-[0.25em] text-slate-500">
             අද දින දෛනික අනාවැකිය · Open-Meteo{summariesAt ? ` · ${summariesAt}` : ''}
@@ -1138,7 +1177,7 @@ export default function Weather() {
 
       <section className="relative mx-auto mt-10 max-w-6xl px-5 pb-4 lg:px-6">
         <p className="mt-6 text-center text-sm text-slate-500">
-          මෙම පිටුව ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුවේ (Department of Meteorology, Sri Lanka) නිවේදන ආකෘතිය මත අනුකරණය කර නිර්මාණය කර ඇත. සැබෑ තත්ත්වයන් සඳහා නිශ්චිත තොරතුරු නිල වෙබ් අඩවියෙන් හෝ නිල ප්‍රකාශයන්ගෙන් අනිවාර්යයෙන්ම තහවුරු කරගන්න. | දත්ත මූලාශ්‍රය: Open-Meteo
+          නිල කාලගුණ නිවේදන කොටස ශ්‍රී ලංකා කාලගුණ විද්‍යා දෙපාර්තමේන්තුවේ (meteo.gov.lk) ප්‍රකාශිත පෙළ වෙනස් නොකර පෙන්වයි. නගරයේ සජීවී දත්ත සහ පළාත් සාරාංශය Open-Meteo ආකෘති දත්ත මත පදනම් වේ. අවසන් තීරණය සඳහා සැමවිටම නිල වෙබ් අඩවිය හෝ නිල ප්‍රකාශයන් තහවුරු කරගන්න. | දත්ත මූලාශ්‍ර: කාලගුණ විද්‍යා දෙපාර්තමේන්තුව, Open-Meteo
         </p>
       </section>
     </div>
